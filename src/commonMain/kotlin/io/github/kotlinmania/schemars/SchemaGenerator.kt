@@ -1,13 +1,7 @@
-// port-lint: source src/generate.rs
+// port-lint: ignore
+// The full SchemaGenerator type lives at io.github.kotlinmania.schemars.generate.SchemaGenerator;
+// re-export it at the schemars package root so callers can write `SchemaGenerator` directly.
 package io.github.kotlinmania.schemars
 
-/**
- * The main type used to generate JSON Schemas.
- *
- * Holds the settings used during schema generation and tracks the
- * sub-schemas defined by the types encountered while generating a root
- * schema. The full upstream type carries `SchemaSettings` and a
- * definitions map; only the surface used by current consumers is
- * preserved here.
- */
-class SchemaGenerator
+typealias SchemaGenerator = io.github.kotlinmania.schemars.generate.SchemaGenerator
+
