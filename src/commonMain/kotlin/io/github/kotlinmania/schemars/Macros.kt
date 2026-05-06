@@ -48,9 +48,15 @@ fun jsonSchema(block: JsonObjectBuilder.() -> Unit): Schema {
 class JsonObjectBuilder internal constructor() {
     internal val entries: MutableMap<String, Value> = linkedMapOf()
 
-    /** Add an entry. Right-hand side is coerced via [Value.of]. */
-    infix fun String.to(value: Any?) {
-        entries[this] = Value.of(value)
+    /**
+     * Add an entry. Right-hand side is coerced via [Value.of].
+     *
+     * Indexer form is used (rather than `infix to`) so that nested calls like
+     * `mapOf("Ok" to subschema)` resolve `to` to `kotlin.Pair` instead of being captured by
+     * the builder's receiver.
+     */
+    operator fun set(key: String, value: Any?) {
+        entries[key] = Value.of(value)
     }
 }
 

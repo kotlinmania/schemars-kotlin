@@ -17,7 +17,7 @@ private fun simple(name: String, instanceType: String): JsonSchema = object : Js
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = name
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        "type" to instanceType
+        this["type"] = instanceType
     }
 }
 
@@ -25,8 +25,8 @@ private fun simpleFormat(name: String, instanceType: String, format: String): Js
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = name
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        "type" to instanceType
-        "format" to format
+        this["type"] = instanceType
+        this["format"] = format
     }
 }
 
@@ -40,10 +40,10 @@ private fun ranged(
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = name
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        "type" to instanceType
-        "format" to format
-        "minimum" to min
-        "maximum" to max
+        this["type"] = instanceType
+        this["format"] = format
+        this["minimum"] = min
+        this["maximum"] = max
     }
 }
 
@@ -56,10 +56,10 @@ private fun rangedUnsigned(
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = name
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        "type" to instanceType
-        "format" to format
-        "minimum" to 0
-        "maximum" to max.toLong()
+        this["type"] = instanceType
+        this["format"] = format
+        this["minimum"] = 0
+        this["maximum"] = max.toLong()
     }
 }
 
@@ -67,9 +67,9 @@ private fun unsigned(name: String, instanceType: String, format: String): JsonSc
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = name
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        "type" to instanceType
-        "format" to format
-        "minimum" to 0
+        this["type"] = instanceType
+        this["format"] = format
+        this["minimum"] = 0
     }
 }
 
@@ -121,9 +121,9 @@ object CharSchema : JsonSchema {
     override fun schemaName(): String = "Character"
     override fun schemaId(): String = "char"
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        "type" to "string"
-        "minLength" to 1
-        "maxLength" to 1
+        this["type"] = "string"
+        this["minLength"] = 1
+        this["maxLength"] = 1
     }
 }
 
