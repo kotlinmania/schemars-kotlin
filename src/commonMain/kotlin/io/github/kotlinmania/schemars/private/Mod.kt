@@ -10,6 +10,33 @@ import io.github.kotlinmania.schemars.jsonschemaimpls.UnitSchema
 import io.github.kotlinmania.schemars.transform.Transform
 import io.github.kotlinmania.schemars.transform.transformImmediateSubschemas
 
+// Tracking file for upstream `_private/mod.rs`. The upstream module mixes pub-fn definitions
+// (translated below as top-level functions) with one `pub use` re-export. Per the workspace
+// rule on `mod.rs` re-exports (CLAUDE.md `## Re-exports from upstream `mod.rs` files`), no
+// Kotlin `typealias` is introduced for the re-exported name. Callers reach the original
+// symbol directly, either by package-local resolution or via explicit
+// `import <upstream-fully-qualified-name> as <Name>`.
+
+// Upstream `pub use` lines:
+//   `pub use rustdoc::get_title_and_description;` — getTitleAndDescription lives in
+//                                                    Rustdoc.kt in this same package. Already
+//                                                    accessible by name from any caller in
+//                                                    `io.github.kotlinmania.schemars.private`
+//                                                    and by qualified import elsewhere; no
+//                                                    synthetic alias.
+
+// Callers migrated:
+//   (none — workspace audit confirmed zero Kotlin callers held a direct or wildcard import of
+//    `io.github.kotlinmania.schemars.private.getTitleAndDescription` at the time of the audit.
+//    No same-package consumers existed; future imports should target
+//    `io.github.kotlinmania.schemars.private.getTitleAndDescription` directly.)
+
+// Projected callers (Rust):
+//   workspace dependency search shows two `*-kotlin` repos with `tmp/` Rust trees that depend
+//   on the schemars crate in their Cargo.toml: `rmcp-kotlin` and `serde-with-kotlin`. Neither
+//   tmp/ tree references `schemars::_private::get_title_and_description` from upstream Rust;
+//   future Kotlin ports of either crate should import the symbol from
+//   `io.github.kotlinmania.schemars.private.getTitleAndDescription` directly when needed.
 
 fun jsonSchemaForInternallyTaggedEnumNewtypeVariant(
     type: JsonSchema,

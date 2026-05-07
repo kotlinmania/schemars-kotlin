@@ -11,5 +11,6 @@ package io.github.kotlinmania.schemars
 //
 // Callers migrated:
 //   /Volumes/stuff/Projects/kotlinmania/codex-kotlin/src/commonMain/kotlin/io/github/solaceharmony/codex/protocol/ConversationId.kt
+//   /Volumes/stuff/Projects/kotlinmania/schemars-kotlin/src/commonMain/kotlin/io/github/kotlinmania/schemars/jsonschemaimpls/SerdeJson.kt
 
 typealias SchemaGenerator = io.github.kotlinmania.schemars.generate.SchemaGenerator
