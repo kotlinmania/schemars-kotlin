@@ -4,7 +4,7 @@ package io.github.kotlinmania.schemars.jsonschemaimpls
 import io.github.kotlinmania.schemars.JsonSchema
 
 /*
- * `forward_impl!((<K, V, H> JsonSchema for IndexMap<K, V, H>) => BTreeMap<K, V>)` — IndexMap's
+ *
  * schema is identical to BTreeMap's. Same for IndexSet → BTreeSet.
  */
 

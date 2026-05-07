@@ -7,9 +7,9 @@ import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /**
- * `tuple_impls!` covers tuples of arity 1..16.
  *
- * In Kotlin tuples are not first-class for arities > 3 (`Pair`, `Triple`); the upstream
+ *
+ *
  * macro's pattern collapses to a single class parameterised by the list of element schemas.
  */
 class TupleSchema(val elements: List<JsonSchema>) : JsonSchema {

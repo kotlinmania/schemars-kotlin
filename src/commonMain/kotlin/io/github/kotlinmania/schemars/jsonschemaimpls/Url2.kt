@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl JsonSchema for url::Url` — string with `format: uri`. */
 object UrlSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "Url"

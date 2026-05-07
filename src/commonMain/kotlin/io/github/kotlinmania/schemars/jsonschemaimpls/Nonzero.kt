@@ -8,8 +8,8 @@ import io.github.kotlinmania.schemars.Value
 import io.github.kotlinmania.schemars.jsonSchema
 
 /*
- * `nonzero_signed_impl!` and `nonzero_unsigned_impl!` produce JsonSchema implementations for
- * Rust's `core::num::NonZero{I,U}{8,16,32,64,128,size}` types. Kotlin has no native non-zero
+ *
+ *
  * numeric type, but the schema constraint is well-defined: signed nonzero adds `not: { const: 0 }`,
  * unsigned nonzero adds `minimum: 1`.
  */

@@ -3,13 +3,6 @@ package io.github.kotlinmania.schemars.jsonschemaimpls
 
 import io.github.kotlinmania.schemars.JsonSchema
 
-/*
- * Each upstream `forward_impl!(AtomicX => X)` says "the AtomicX schema is the same as X's
- * schema". Kotlin's `kotlin.concurrent.atomics.AtomicInt`/`AtomicLong`/`AtomicReference`
- * follow the same idea — the wire format is the inner type's. So the schemas below are simple
- * aliases of the corresponding primitive schemas.
- */
-
 val AtomicBoolSchema: JsonSchema = BoolSchema
 val AtomicI8Schema: JsonSchema = I8Schema
 val AtomicI16Schema: JsonSchema = I16Schema

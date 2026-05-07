@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl<L: JsonSchema, R: JsonSchema> JsonSchema for either::Either<L, R>`. */
 class EitherSchema(val left: JsonSchema, val right: JsonSchema) : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "Either_${left.schemaName()}_or_${right.schemaName()}"

@@ -32,7 +32,7 @@ There are two main types in this module:
  * The default settings currently conform to JSON Schema 2020-12, but this is liable to change in a
  * future version of Schemars if support for other JSON Schema versions is added.
  * If you rely on generated schemas conforming to draft 2020-12, consider using the
- * [SchemaSettings.draft2020_12] method.
+ * [SchemaSettings.draft202012] method.
  */
 data class SchemaSettings(
     /**
@@ -83,9 +83,9 @@ data class SchemaSettings(
          * The default settings currently conform to JSON Schema 2020-12, but this is liable to
          * change in a future version of Schemars if support for other JSON Schema versions is
          * added. If you rely on generated schemas conforming to draft 2020-12, consider using
-         * [draft2020_12] instead.
+         * [draft202012] instead.
          */
-        fun default(): SchemaSettings = draft2020_12()
+        fun default(): SchemaSettings = draft202012()
 
         /** Creates `SchemaSettings` that conform to JSON Schema Draft 7. */
         fun draft07(): SchemaSettings = SchemaSettings(
@@ -102,8 +102,7 @@ data class SchemaSettings(
         )
 
         /** Creates `SchemaSettings` that conform to JSON Schema 2019-09. */
-        @Suppress("FunctionName")
-        fun draft2019_09(): SchemaSettings = SchemaSettings(
+        fun draft201909(): SchemaSettings = SchemaSettings(
             definitionsPath = "/\$defs",
             metaSchema = MetaSchemas.DRAFT2019_09,
             transforms = mutableListOf(ReplacePrefixItems()),
@@ -113,8 +112,7 @@ data class SchemaSettings(
         )
 
         /** Creates `SchemaSettings` that conform to JSON Schema 2020-12. */
-        @Suppress("FunctionName")
-        fun draft2020_12(): SchemaSettings = SchemaSettings(
+        fun draft202012(): SchemaSettings = SchemaSettings(
             definitionsPath = "/\$defs",
             metaSchema = MetaSchemas.DRAFT2020_12,
             transforms = mutableListOf(),
@@ -266,9 +264,6 @@ class SchemaGenerator internal constructor(
     }
 
     private fun insertNewSubschemaFor(type: JsonSchema, name: String, uid: SchemaUid) {
-        // TODO: If we've already added a schema for T with the "opposite" contract, then check
-        // whether the new schema is identical. If so, re-use the original for both contracts.
-
         val dummy = Value.Bool(false)
         // insert into definitions BEFORE calling jsonSchema to avoid infinite recursion
         definitions[name] = dummy
@@ -365,12 +360,8 @@ class SchemaGenerator internal constructor(
     /**
      * Generates a JSON Schema for the given example value.
      *
-     * If the value implements [JsonSchema], prefer [rootSchemaFor] which produces a more precise
-     * schema (particularly for enums).
-     *
-     * If a serialization layer is later attached (via `ser.kt`'s `Serializer`), this method
-     * forwards to it. Until then, this returns a schema describing the literal JSON shape of
-     * [value], with metadata and transforms applied to mirror upstream behaviour.
+     * If the value implements [JsonSchema], prefer [rootSchemaFor] which generally produces a
+     * more precise schema, particularly when the value contains any enums.
      */
     fun rootSchemaForValue(value: Value): Schema {
         val schema = SchemaForValue.of(value, includeTitle = true)
@@ -465,11 +456,6 @@ private fun jsonPointerMut(
     return current
 }
 
-/**
- * `SchemaForValue` mirrors the upstream `Serializer::serialize_value` path by producing a schema
- * that describes the literal JSON shape of the given value. This is intentionally minimal until
- * `ser.kt` ports the full serde Serializer.
- */
 private object SchemaForValue {
     fun of(value: Value, includeTitle: Boolean): Schema {
         val schema = describe(value)

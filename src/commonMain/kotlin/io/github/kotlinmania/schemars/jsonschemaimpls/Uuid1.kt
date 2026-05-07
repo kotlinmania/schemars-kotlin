@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl JsonSchema for uuid::Uuid` — string with `format: uuid`. */
 object UuidSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "Uuid"

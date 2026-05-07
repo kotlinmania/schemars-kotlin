@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl JsonSchema for chrono::Weekday` — string enum of Mon..Sun. */
 object WeekdaySchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "Weekday"
@@ -17,7 +16,6 @@ object WeekdaySchema : JsonSchema {
     }
 }
 
-/** `impl JsonSchema for chrono::TimeDelta` — `[seconds: i64, nanoseconds: 0..1e9]`. */
 object TimeDeltaSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "TimeDelta"
@@ -47,5 +45,4 @@ val NaiveDateSchema: JsonSchema = formattedString("NaiveDate", "date")
 val NaiveDateTimeSchema: JsonSchema = formattedString("NaiveDateTime", "partial-date-time")
 val NaiveTimeSchema: JsonSchema = formattedString("NaiveTime", "partial-time")
 
-/** `impl<Tz: TimeZone> JsonSchema for chrono::DateTime<Tz>` — string with `format: date-time`. */
 val ChronoDateTimeSchema: JsonSchema = formattedString("DateTime", "date-time")

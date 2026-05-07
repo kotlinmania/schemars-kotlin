@@ -8,10 +8,10 @@ import io.github.kotlinmania.schemars.Value
 import io.github.kotlinmania.schemars.jsonSchema
 
 /**
- * `impl<K: JsonSchema, V: JsonSchema> JsonSchema for BTreeMap<K, V>` (and
- * `HashMap<K, V, H>` via `forward_impl!`).
  *
- * The full upstream behaviour inspects the key schema to decide between `properties`,
+ *
+ *
+ *
  * `patternProperties`, and `additionalProperties` — string keys with `pattern` go to
  * `patternProperties`, string keys with `enum` go to `properties`, integer keys generate
  * `\d+` patterns, anything else falls back to `additionalProperties`.
@@ -57,7 +57,6 @@ class MapSchema(val key: JsonSchema, val value: JsonSchema) : JsonSchema {
             }
         }
 
-        // Resolve `$ref` indirections to inline definitions, mirroring upstream.
         val prefix = "#${generator.definitionsPathStripped()}/"
         for (i in options.indices) {
             val option = options[i]

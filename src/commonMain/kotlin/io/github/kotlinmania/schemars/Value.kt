@@ -1,16 +1,7 @@
-// port-lint: ignore
-// Subset of `serde_json::Value` used by schemars. To be replaced wholesale once
-// `serde-json-kotlin` matures and exposes the full `Value` / `Map` / `Number` API.
+// port-lint: ignore  -- shared in-package JSON value type used by Schema.
 package io.github.kotlinmania.schemars
 
-/**
- * A JSON value. Mirrors the variants of `serde_json::Value` so the schemars port can
- * reproduce its mutation patterns (`as_object_mut`, in-place `insert`/`remove`/`entry`,
- * etc.) without depending on the full upstream serde_json crate.
- *
- * Object insertion order is preserved (matches `serde_json::Map`'s `LinkedHashMap`-backed
- * default). Arrays use [MutableList].
- */
+/** A JSON value: null, bool, number, string, array, or object with insertion-order entries. */
 sealed class Value {
     /** JSON `null`. */
     data object Null : Value()
@@ -18,7 +9,7 @@ sealed class Value {
     /** JSON boolean. */
     data class Bool(val value: Boolean) : Value()
 
-    /** JSON number. Stores the underlying [kotlin.Number]; equality is value-based. */
+    /** JSON number. */
     data class Number(val value: kotlin.Number) : Value() {
         companion object {
             fun fromInt(n: Int): Number = Number(n)
@@ -28,7 +19,7 @@ sealed class Value {
             fun fromULong(n: ULong): Number = Number(n.toLong())
         }
 
-        /** Whether the underlying number fits in an unsigned 64-bit integer. */
+        /** Returns the underlying number as an unsigned 64-bit integer, if it fits. */
         fun asULong(): ULong? = when (val v = value) {
             is Int -> if (v >= 0) v.toULong() else null
             is Long -> if (v >= 0L) v.toULong() else null
@@ -37,7 +28,7 @@ sealed class Value {
             else -> null
         }
 
-        /** Whether the underlying number fits in a signed 64-bit integer. */
+        /** Returns the underlying number as a signed 64-bit integer, if it fits. */
         fun asLong(): Long? = when (val v = value) {
             is Int -> v.toLong()
             is Long -> v
@@ -46,19 +37,19 @@ sealed class Value {
             else -> null
         }
 
-        /** Whether the underlying number fits in a 64-bit float. */
+        /** Returns the underlying number as a 64-bit float. */
         fun asDouble(): Double? = value.toDouble()
     }
 
     /** JSON string. */
     data class Str(val value: String) : Value()
 
-    /** JSON array. Backed by a [MutableList] so the upstream `as_array_mut` semantics work. */
+    /** JSON array. */
     data class Array(val items: MutableList<Value>) : Value() {
         constructor() : this(mutableListOf())
     }
 
-    /** JSON object. Backed by a [LinkedHashMap] so insertion order is preserved. */
+    /** JSON object whose entries preserve insertion order. */
     data class Object(val entries: MutableMap<String, Value>) : Value() {
         constructor() : this(linkedMapOf())
     }
@@ -81,8 +72,6 @@ sealed class Value {
     /**
      * If this value is an [Object], look up `key`. If this value is an [Array] and `key` is
      * a numeric string, look up by index. Otherwise return `null`.
-     *
-     * Mirrors `serde_json::Value::get(&self, index: I)` for the `&str` overload.
      */
     fun get(key: String): Value? = when (this) {
         is Object -> entries[key]
@@ -115,7 +104,7 @@ sealed class Value {
     }
 
     companion object {
-        /** Coerce a Kotlin value to [Value]. Mirrors the upstream `From` impls. */
+        /** Coerce a Kotlin value to [Value]. */
         fun of(v: Any?): Value = when (v) {
             null -> Null
             is Value -> v

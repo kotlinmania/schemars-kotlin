@@ -7,7 +7,7 @@ import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /*
- * `formatted_string_impl!` produces a `{ type: string, format: ... }` schema for each of
+ *
  * jiff's date/time types. Identical pattern to `chrono04::formattedString`.
  */
 

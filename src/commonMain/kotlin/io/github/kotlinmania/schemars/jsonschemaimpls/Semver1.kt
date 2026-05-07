@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl JsonSchema for semver::Version` — string with the suggested semver regex. */
 object SemverSchema : JsonSchema {
     override fun schemaName(): String = "SemVer"
     override fun schemaId(): String = "semver::Version"

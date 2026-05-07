@@ -29,7 +29,6 @@ JSON Schema types.
  * `Map<String, Value>` or `Boolean`.
  */
 class Schema private constructor(private var innerRef: Value) {
-    /** The currently wrapped JSON value. Mutable to support [ensureObject]'s bool→object upgrade. */
     val inner: Value
         get() = innerRef
 
@@ -87,31 +86,23 @@ class Schema private constructor(private var innerRef: Value) {
     fun asBool(): Boolean? = innerRef.asBool()
 
     /**
-     * If the `Schema`'s underlying JSON value is an object, returns the object as a mutable
-     * `Map` of properties. (Kotlin doesn't distinguish `&` from `&mut` references; the upstream
-     * split between [asObject] and [asObjectMut] is preserved as separate methods for parity.)
+     * If the `Schema`'s underlying JSON value is an object, borrows the object as a `Map` of
+     * properties.
      */
     fun asObject(): MutableMap<String, Value>? = innerRef.asObject()
 
-    /** Mutable variant of [asObject]; same return value. */
+    /**
+     * If the `Schema`'s underlying JSON value is an object, mutably borrows the object as a `Map`
+     * of properties.
+     */
     fun asObjectMut(): MutableMap<String, Value>? = innerRef.asObject()
 
-    /**
-     * Consumes this schema and returns its object map.
-     *
-     * Mirrors the upstream `Result<Map<String, Value>, bool>` — a [TryToObjectResult.Ok]
-     * carries the map, a [TryToObjectResult.Err] carries the underlying bool.
-     */
     fun tryToObject(): TryToObjectResult = when (val v = innerRef) {
         is Value.Object -> TryToObjectResult.Ok(v.entries)
         is Value.Bool -> TryToObjectResult.Err(v.value)
         else -> error("Schema inner value should always be Object or Bool")
     }
 
-    /**
-     * If this schema wraps an object, returns the mutable map. Otherwise returns the underlying
-     * bool via [TryToObjectResult.Err].
-     */
     fun tryAsObjectMut(): TryToObjectResult = when (val v = innerRef) {
         is Value.Object -> TryToObjectResult.Ok(v.entries)
         is Value.Bool -> TryToObjectResult.Err(v.value)
@@ -154,11 +145,18 @@ class Schema private constructor(private var innerRef: Value) {
 
     /**
      * If the `Schema`'s underlying JSON value is an object, gets a reference to that object's
-     * value for the given key if it exists. Always returns `null` for bool schemas.
+     * value for the given key if it exists.
+     *
+     * This always returns `null` for bool schemas.
      */
     fun get(key: String): Value? = innerRef.asObject()?.get(key)
 
-    /** Mutable variant of [get]; same return value. */
+    /**
+     * If the `Schema`'s underlying JSON value is an object, gets a mutable reference to that
+     * object's value for the given key if it exists.
+     *
+     * This always returns `null` for bool schemas.
+     */
     fun getMut(key: String): Value? = innerRef.asObject()?.get(key)
 
     /**
@@ -181,7 +179,17 @@ class Schema private constructor(private var innerRef: Value) {
         }
     }
 
-    /** Mutable variant of [pointer]; same lookup semantics. */
+    /**
+     * If the `Schema`'s underlying JSON value is an object, looks up a value by a JSON Pointer
+     * and returns a mutable reference to that value.
+     *
+     * If the given pointer begins with a `#`, then the rest of the value is assumed to be in
+     * "URI Fragment Identifier Representation", and will be percent-decoded accordingly.
+     *
+     * For more information on JSON Pointer, read [RFC6901](https://tools.ietf.org/html/rfc6901).
+     *
+     * This always returns `null` for bool schemas.
+     */
     fun pointerMut(pointer: String): Value? = pointer(pointer)
 
     /**
@@ -190,10 +198,6 @@ class Schema private constructor(private var innerRef: Value) {
      */
     fun remove(key: String): Value? = innerRef.asObject()?.remove(key)
 
-    /**
-     * Returns `true` if the schema's `type` keyword names [ty]. The keyword may be a string
-     * (single type) or an array of strings (union types).
-     */
     internal fun hasType(ty: String): Boolean {
         return when (val t = innerRef.asObject()?.get("type")) {
             is Value.Array -> t.items.any { it.asStr() == ty }

@@ -10,8 +10,6 @@ import io.github.kotlinmania.schemars.jsonschemaimpls.UnitSchema
 import io.github.kotlinmania.schemars.transform.Transform
 import io.github.kotlinmania.schemars.transform.transformImmediateSubschemas
 
-// pub use rustdoc::get_title_and_description;  -- callers should import the function directly
-// from io.github.kotlinmania.schemars.private.getTitleAndDescription.
 
 fun jsonSchemaForInternallyTaggedEnumNewtypeVariant(
     type: JsonSchema,
@@ -82,7 +80,7 @@ fun jsonSchemaForFlatten(
         return null
     }
 
-    /** Non-generic inner function to reduce monomorphization overhead in upstream. */
+    /** Non-generic inner function to reduce monomorphization overhead. */
     fun inner(schema: Schema, isOptional: Boolean): Schema {
         // Special handling for externally-tagged enums with unit variants.
         // Unit variants are normally serialized as strings, but when flattened, are serialized
@@ -169,16 +167,6 @@ internal class AllowUnknownProperties(var didModify: Boolean = false) : Transfor
     }
 }
 
-/*
- * Hack to simulate specialization:
- * `MaybeSerializeWrapper(x).maybeToValue()` should resolve to either:
- *   - the inherent method `MaybeSerializeWrapper::maybeToValue(...)` if x is `Serialize`
- *   - the trait method `NoSerialize::maybeToValue(...)` from the blanket impl otherwise
- *
- * Kotlin has no specialization. Callers that want the full upstream behaviour pass a
- * pre-serialised [Value] (or `null` if the value couldn't be serialised); the wrapper just
- * threads it through. This matches the upstream surface every call site uses.
- */
 class MaybeSerializeWrapper(val value: Value?) {
     fun maybeToValue(): Value? = value
 }
@@ -189,12 +177,8 @@ fun newUnitEnumVariant(variant: String): Schema = jsonSchema {
     this["const"] = variant
 }
 
-/*
- * Hack to simulate specialization for `<MaybeJsonSchemaWrapper<T>>::maybeSchemaId()`. Same
- * technique as [MaybeSerializeWrapper]: callers pass a pre-resolved value.
- */
 class MaybeJsonSchemaWrapper(val schemaId: String?) {
-    fun maybeSchemaId(): String = schemaId ?: "<unknown>"
+    fun maybeSchemaId(): String = schemaId.orEmpty()
 }
 
 /** Create a schema for an externally tagged enum variant. */
@@ -446,7 +430,6 @@ internal fun allowNull(generator: SchemaGenerator, schema: Schema) {
         }
         is io.github.kotlinmania.schemars.TryToObjectResult.Err -> {
             if (!r.bool) {
-                // Replace the schema entirely with `Unit::json_schema(generator)`.
                 val unit = UnitSchema.jsonSchema(generator)
                 val src = unit.asObject() ?: linkedMapOf()
                 val obj = schema.ensureObject()

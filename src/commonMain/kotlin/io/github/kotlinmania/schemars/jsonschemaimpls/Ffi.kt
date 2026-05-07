@@ -7,12 +7,6 @@ import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.Value
 import io.github.kotlinmania.schemars.jsonSchema
 
-/*
- * `OsString`/`CString` schemas. Kotlin doesn't have separate OS-specific string types — the
- * shape is preserved here so consumers that round-trip through the upstream serde representation
- * can still produce a matching schema.
- */
-
 object OsStringSchema : JsonSchema {
     override fun schemaName(): String = "OsString"
     override fun schemaId(): String = "std::ffi::OsString"
@@ -36,7 +30,6 @@ object OsStringSchema : JsonSchema {
     }
 }
 
-/** `forward_impl!(OsStr => OsString);`. */
 val OsStrSchema: JsonSchema = OsStringSchema
 
 object CStringSchema : JsonSchema {
@@ -59,7 +52,4 @@ object CStringSchema : JsonSchema {
     }
 }
 
-/** `forward_impl!(CStr => CString);`. */
 val CStrSchema: JsonSchema = CStringSchema
-
-@Suppress("unused") private fun _vUnused(v: Value): Value = v

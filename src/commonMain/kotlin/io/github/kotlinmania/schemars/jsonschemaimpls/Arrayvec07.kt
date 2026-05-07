@@ -7,13 +7,12 @@ import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /*
- * `forward_impl!((<const CAP: usize> JsonSchema for ArrayString<CAP>) => String);` — the
+ *
  * `arrayvec` crate's bounded string is described by the same schema as `String` (no maxLength
- * since the upstream limit is in bytes, not characters).
+ *
  */
 val ArrayStringSchema: JsonSchema = StringSchema
 
-/** `impl<T, const CAP: usize> JsonSchema for ArrayVec<T, CAP>` — array of T with maxItems. */
 class ArrayVecSchema(val cap: Int, val element: JsonSchema) : JsonSchema {
     init { require(cap >= 0) { "ArrayVecSchema cap must be >= 0 (was $cap)" } }
     override fun inlineSchema(): Boolean = true

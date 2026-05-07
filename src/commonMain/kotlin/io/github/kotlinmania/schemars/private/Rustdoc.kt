@@ -2,14 +2,11 @@
 package io.github.kotlinmania.schemars.private
 
 /**
- * Splits a Rust-style doc comment into a `(title, description)` pair.
+ * Splits a doc comment into a `(title, description)` pair.
  *
  * If the first non-whitespace line starts with `#`, that line (with leading `#`s and surrounding
  * whitespace stripped) is the title and the remainder is the description. Otherwise the title
  * is empty and the entire doc is the description.
- *
- * Upstream the function is a `const fn` operating on byte slices; the algorithmic shape is
- * preserved here for fidelity even though Kotlin string slicing is strictly more powerful.
  */
 fun getTitleAndDescription(doc: String): Pair<String, String> {
     val docBytes = trimAscii(doc)

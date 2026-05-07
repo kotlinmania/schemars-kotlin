@@ -16,25 +16,6 @@ subschemas.
 To make a transform recursive (i.e. apply it to subschemas), you have two options:
 1. call the [transformSubschemas] function within the transform function
 2. wrap the [Transform] in a [RecursiveTransform]
-
-# Examples
-
-To add a custom property to all object schemas:
-
-```
-import io.github.kotlinmania.schemars.transform.Transform
-import io.github.kotlinmania.schemars.transform.transformSubschemas
-
-class MyTransform : Transform {
-    override fun transform(schema: Schema) {
-        // First, make our change to this schema
-        schema.insert("my_property", Value.Str("hello world"))
-
-        // Then apply the transform to any subschemas
-        transformSubschemas(this, schema)
-    }
-}
-```
 */
 
 /**
@@ -51,18 +32,10 @@ interface Transform {
      */
     fun transform(schema: Schema)
 
-    /**
-     * Hack to enable implementing `Debug` on Box<dyn GenTransform> even though closures don't
-     * implement `Debug` in upstream. Kotlin uses [Any.toString], so the equivalent is overriding
-     * [toString]; this method is preserved for upstream parity.
-     */
     fun debugTypeName(): String = this::class.simpleName ?: "Transform"
 }
 
-/**
- * Adapt a Kotlin lambda into a [Transform]. Mirrors the upstream blanket impl
- * `impl<F: FnMut(&mut Schema)> Transform for F`.
- */
+/** Adapt a function into a [Transform]. */
 fun transformOf(block: (Schema) -> Unit): Transform = object : Transform {
     override fun transform(schema: Schema) = block(schema)
 }
@@ -77,7 +50,7 @@ fun transformSubschemas(t: Transform, schema: Schema) {
         // This is intentionally written to work with multiple JSON Schema versions, so that
         // users can add their own transforms on the end of e.g. SchemaSettings.draft07() and
         // they will still apply to all subschemas "as expected".
-        // This is why this match statement contains both `additionalProperties` (which was
+        // This is why this when statement contains both `additionalProperties` (which was
         // dropped in draft 2020-12) and `prefixItems` (which was added in draft 2020-12).
         when (key) {
             "not", "if", "then", "else", "contains",
@@ -374,7 +347,6 @@ private class GatherPropertyNames(val names: MutableSet<String> = sortedSetOf())
 private fun sortedSetOf(): MutableSet<String> = sortedSetWithDefaultComparator()
 private fun sortedSetWithDefaultComparator(): MutableSet<String> {
     // Kotlin Multiplatform common doesn't expose TreeSet — use a LinkedHashSet so ordering is
-    // deterministic by insertion. The upstream BTreeSet sort is not relied on by call sites
     // (output ordering is determined by `properties` map iteration).
     return linkedSetOf()
 }

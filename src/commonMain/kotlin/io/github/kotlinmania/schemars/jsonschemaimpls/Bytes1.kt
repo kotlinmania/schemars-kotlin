@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl JsonSchema for bytes1::Bytes` — array of u8 (or string when deserialising). */
 object BytesSchema : JsonSchema {
     override fun schemaName(): String = "Bytes"
     override fun schemaId(): String = "bytes::Bytes"
@@ -22,5 +21,4 @@ object BytesSchema : JsonSchema {
     }
 }
 
-/** `forward_impl!(bytes1::BytesMut => bytes1::Bytes);`. */
 val BytesMutSchema: JsonSchema = BytesSchema

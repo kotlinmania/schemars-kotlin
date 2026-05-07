@@ -59,9 +59,6 @@ fun percentDecode(s: String): String? {
     for (b in first.encodeToByteArray()) buf.add(b)
 
     for (segment in segments.drop(1)) {
-        // Match Rust's `u8::from_str_radix(p, 16)` semantics: both chars must be plain hex
-        // digits (0-9 a-f A-F). Kotlin's `toIntOrNull(16)` would otherwise accept a leading
-        // `-` and parse `-e` as -14, corrupting the byte stream.
         val decodedByte: Int? = if (segment.length >= 2 &&
             segment[0].isHexDigit() && segment[1].isHexDigit()
         ) {

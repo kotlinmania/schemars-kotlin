@@ -8,11 +8,7 @@ import io.github.kotlinmania.schemars.Value
 import io.github.kotlinmania.schemars.jsonSchema
 import io.github.kotlinmania.schemars.private.allowNull
 
-/**
- * `impl<T: JsonSchema> JsonSchema for Option<T>`.
- *
- * Wraps an inner [JsonSchema] and adds `null` as a permitted value.
- */
+/** Schema for an optional value. Wraps the inner schema and adds `null` as permitted. */
 class OptionSchema(val inner: JsonSchema) : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "Nullable_${inner.schemaName()}"
@@ -29,7 +25,7 @@ class OptionSchema(val inner: JsonSchema) : JsonSchema {
     override fun schemarsPrivateIsOption(): Boolean = true
 }
 
-/** `impl<T: JsonSchema, E: JsonSchema> JsonSchema for Result<T, E>`. */
+/** Schema for an `Ok|Err` result with two parametric branches. */
 class ResultSchema(val ok: JsonSchema, val err: JsonSchema) : JsonSchema {
     override fun schemaName(): String =
         "Result_of_${ok.schemaName()}_or_${err.schemaName()}"
@@ -51,7 +47,7 @@ class ResultSchema(val ok: JsonSchema, val err: JsonSchema) : JsonSchema {
     }
 }
 
-/** `impl<T: JsonSchema> JsonSchema for Bound<T>`. */
+/** Schema for a bound endpoint: included, excluded, or unbounded. */
 class BoundSchema(val inner: JsonSchema) : JsonSchema {
     override fun schemaName(): String = "Bound_of_${inner.schemaName()}"
     override fun schemaId(): String = "Bound<${inner.schemaId()}>"
@@ -75,7 +71,7 @@ class BoundSchema(val inner: JsonSchema) : JsonSchema {
     }
 }
 
-/** `impl<T: JsonSchema> JsonSchema for Range<T>`. */
+/** Schema for a half-open range with `start` and `end` fields. */
 class RangeSchema(val inner: JsonSchema) : JsonSchema {
     override fun schemaName(): String = "Range_of_${inner.schemaName()}"
     override fun schemaId(): String = "Range<${inner.schemaId()}>"
@@ -89,18 +85,12 @@ class RangeSchema(val inner: JsonSchema) : JsonSchema {
     }
 }
 
-/** `forward_impl!((<T: JsonSchema> JsonSchema for RangeInclusive<T>) => Range<T>);`. */
+/** Schema for an inclusive range — same shape as [RangeSchema]. */
 class RangeInclusiveSchema(inner: JsonSchema) : JsonSchema by RangeSchema(inner)
 
-/** `forward_impl!((<T: ?Sized> JsonSchema for core::marker::PhantomData<T>) => ());`. */
+/** Schema for a phantom marker type — equivalent to the unit schema. */
 val PhantomDataSchema: JsonSchema = UnitSchema
 
-/** `forward_impl!((<'a> JsonSchema for core::fmt::Arguments<'a>) => String);`. */
+/** Schema for formatted-arguments values — equivalent to the string schema. */
 val FmtArgumentsSchema: JsonSchema = StringSchema
 
-/** Helper used by [OptionSchema.jsonSchema] — re-exports the `_private/mod.rs` allow_null. */
-private fun allowNullDelegate(): Nothing = error("delegated to private.allowNull")
-
-@Suppress("unused") private fun _unused(s: Schema): Schema = s
-
-@Suppress("unused") private fun _unused(v: Value): Value = v

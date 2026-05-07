@@ -8,7 +8,7 @@ import io.github.kotlinmania.schemars.Value
 import io.github.kotlinmania.schemars.jsonSchema
 
 /*
- * `decimal_impl!` produces a `Decimal` schema for both `rust_decimal::Decimal` and
+ *
  * `bigdecimal::BigDecimal`. The contract dictates whether the wire format accepts string or
  * number on deserialise, but always emits string on serialise.
  */
@@ -30,10 +30,6 @@ private fun decimalImpl(): JsonSchema = object : JsonSchema {
     }
 }
 
-/** `decimal_impl!(rust_decimal1::Decimal);`. */
 val RustDecimalSchema: JsonSchema = decimalImpl()
 
-/** `decimal_impl!(bigdecimal04::BigDecimal);`. */
 val BigDecimalSchema: JsonSchema = decimalImpl()
-
-@Suppress("unused") private fun _vUnused(v: Value): Value = v

@@ -6,7 +6,6 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-/** `impl JsonSchema for core::time::Duration` — `{ secs: u64, nanos: u32 }`. */
 object DurationSchema : JsonSchema {
     override fun schemaName(): String = "Duration"
     override fun schemaId(): String = "std::time::Duration"
@@ -20,7 +19,6 @@ object DurationSchema : JsonSchema {
     }
 }
 
-/** `impl JsonSchema for std::time::SystemTime` — `{ secs_since_epoch, nanos_since_epoch }`. */
 object SystemTimeSchema : JsonSchema {
     override fun schemaName(): String = "SystemTime"
     override fun schemaId(): String = "std::time::SystemTime"

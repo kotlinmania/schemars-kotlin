@@ -7,7 +7,7 @@ import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /**
- * `seq_impl!` covers `BinaryHeap<T>`, `LinkedList<T>`, `[T]`, `Vec<T>`, `VecDeque<T>`.
+ *
  *
  * In Kotlin all sequence-like containers (`MutableList`, `LinkedList`-equivalent ports, etc.)
  * map to a single parametric schema describing an `array` of [inner].
@@ -22,7 +22,6 @@ class SeqSchema(val inner: JsonSchema) : JsonSchema {
     }
 }
 
-/** `set_impl!` covers `BTreeSet<T>`, `HashSet<T>`. Adds `uniqueItems: true`. */
 class SetSchema(val inner: JsonSchema) : JsonSchema {
     override fun inlineSchema(): Boolean = true
     override fun schemaName(): String = "Set_of_${inner.schemaName()}"

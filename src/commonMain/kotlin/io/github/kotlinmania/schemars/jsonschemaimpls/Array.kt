@@ -7,8 +7,8 @@ import io.github.kotlinmania.schemars.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /**
- * `impl<T> JsonSchema for [T; 0]` — an array literal of length zero. Doesn't require [T] to
- * implement [JsonSchema] in upstream; we keep the singleton here.
+ *
+ *
  */
 object EmptyArraySchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
@@ -21,7 +21,7 @@ object EmptyArraySchema : JsonSchema {
 }
 
 /**
- * `array_impls!` covers fixed-size arrays of length 1..32.
+ *
  *
  * Kotlin's `Array<T>` carries no compile-time length, so the array length is passed as a
  * runtime parameter rather than being a generic-const argument.
