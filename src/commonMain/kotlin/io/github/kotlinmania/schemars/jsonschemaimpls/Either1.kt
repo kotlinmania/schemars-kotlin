@@ -3,7 +3,7 @@ package io.github.kotlinmania.schemars.jsonschemaimpls
 
 import io.github.kotlinmania.schemars.JsonSchema
 import io.github.kotlinmania.schemars.Schema
-import io.github.kotlinmania.schemars.SchemaGenerator
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 class EitherSchema(val left: JsonSchema, val right: JsonSchema) : JsonSchema {

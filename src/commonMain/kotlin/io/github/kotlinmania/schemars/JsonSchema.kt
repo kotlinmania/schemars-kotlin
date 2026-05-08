@@ -1,6 +1,8 @@
 // port-lint: source lib.rs
 package io.github.kotlinmania.schemars
 
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
+
 /**
  * A type which can be described as a JSON Schema document.
  *
@@ -14,7 +16,7 @@ package io.github.kotlinmania.schemars
  * ```
  * import io.github.kotlinmania.schemars.JsonSchema
  * import io.github.kotlinmania.schemars.Schema
- * import io.github.kotlinmania.schemars.SchemaGenerator
+ * import io.github.kotlinmania.schemars.generate.SchemaGenerator
  * import io.github.kotlinmania.schemars.jsonSchema
  *
  * object NonGenericType : JsonSchema {

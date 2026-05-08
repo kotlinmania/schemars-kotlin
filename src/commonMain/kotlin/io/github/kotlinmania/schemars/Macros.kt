@@ -1,6 +1,8 @@
 // port-lint: source macros.rs
 package io.github.kotlinmania.schemars
 
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
+
 /**
  * Generates a [Schema] for the given type using default settings.
  *

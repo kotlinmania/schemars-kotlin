@@ -3,7 +3,7 @@ package io.github.kotlinmania.schemars.private
 
 import io.github.kotlinmania.schemars.JsonSchema
 import io.github.kotlinmania.schemars.Schema
-import io.github.kotlinmania.schemars.SchemaGenerator
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.Value
 import io.github.kotlinmania.schemars.jsonSchema
 import io.github.kotlinmania.schemars.jsonschemaimpls.UnitSchema

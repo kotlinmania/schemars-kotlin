@@ -1,6 +1,7 @@
 // port-lint: source ser.rs
 package io.github.kotlinmania.schemars
 
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonschemaimpls.BoolSchema
 import io.github.kotlinmania.schemars.jsonschemaimpls.CharSchema
 import io.github.kotlinmania.schemars.jsonschemaimpls.SeqSchema
