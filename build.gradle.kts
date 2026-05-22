@@ -51,6 +51,21 @@ val androidSdkManager = projectAndroidSdkDir.resolve(
 )
 val androidSdkInstallMarker = projectAndroidSdkDir.resolve(".install-complete")
 
+// RUNBOOK 2026-05-19 §"Android SDK setup" step 6: the .install-complete
+// marker alone is not enough — the cached path must also verify that the
+// required SDK packages still exist. If the marker is stale or sdkmanager
+// silently lost a package, fall through and re-run the installer.
+val requiredAndroidSdkPackageDirs = listOf(
+    projectAndroidSdkDir.resolve("platform-tools"),
+    projectAndroidSdkDir.resolve("platforms/android-$projectCompileSdk"),
+    projectAndroidSdkDir.resolve("build-tools/$projectAndroidBuildTools"),
+)
+
+fun isProjectAndroidSdkInstalled(): Boolean =
+    androidSdkInstallMarker.exists() &&
+        androidSdkManager.exists() &&
+        requiredAndroidSdkPackageDirs.all { it.exists() }
+
 fun writeAndroidLocalProperties() {
     val sdkDirPropertyValue = projectAndroidSdkDir.absolutePath.replace("\\", "/")
     layout.projectDirectory.file("local.properties").asFile.writeText("sdk.dir=$sdkDirPropertyValue\n")
@@ -114,7 +129,7 @@ fun downloadAndroidCommandLineTools() {
 }
 
 fun installProjectAndroidSdk(execOperations: ExecOperations) {
-    if (androidSdkInstallMarker.exists() && androidSdkManager.exists()) {
+    if (isProjectAndroidSdkInstalled()) {
         writeAndroidLocalProperties()
         println("setup-android-sdk: SDK already installed at $projectAndroidSdkDir")
         return
@@ -410,19 +425,362 @@ tasks.register("setupAndroidSdk") {
 tasks.register("test") {
     group = "verification"
     description =
-        "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit). " +
-        "Non-host native targets (mingwX64, linuxX64) only run on their own host."
+        "Runs every test target that can execute on this macOS host: JVM, " +
+        "JS (browser + Node), Wasm-JS (browser + Node), Wasm-WASI (Node), " +
+        "Android host unit, macOS-arm64 native, and the Apple simulators " +
+        "(iOS, tvOS, watchOS). Non-host native targets (linuxX64, " +
+        "linuxArm64, mingwX64) run on their own platform workflows in CI; " +
+        "the Apple device targets (iosArm64, tvosArm64, watchosArm32/Arm64/" +
+        "DeviceArm64) are linked by `build` but only execute on real " +
+        "hardware via CI."
 
     val defaultTestTasks = listOf(
-        "macosArm64Test",
+        // JVM + Android host JVM
         "jvmTest",
+        "testAndroidHostTest",
+        // JS + Wasm-JS + Wasm-WASI
+        "jsBrowserTest",
         "jsNodeTest",
+        "wasmJsBrowserTest",
         "wasmJsNodeTest",
-        "compileAndroidMain",
-        "assembleUnitTest",
+        "wasmWasiNodeTest",
+        // macOS native + Apple simulators (runnable on macOS host)
+        "macosArm64Test",
+        "iosSimulatorArm64Test",
+        "iosX64Test",
+        "tvosSimulatorArm64Test",
+        "watchosSimulatorArm64Test",
     )
 
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+}
+
+val jsYarnLockBuildTasks = listOf(
+    "compileKotlinJs",
+    "compileTestKotlinJs",
+    "jsMainClasses",
+    "jsTestClasses",
+    "jsJar",
+    "jsTest",
+)
+
+jsYarnLockBuildTasks.forEach { taskName ->
+    tasks.named(taskName) {
+        dependsOn("kotlinUpgradeYarnLock")
+    }
+}
+
+val wasmYarnLockBuildTasks = listOf(
+    "compileKotlinWasmJs",
+    "compileTestKotlinWasmJs",
+    "wasmJsMainClasses",
+    "wasmJsTestClasses",
+    "wasmJsJar",
+    "wasmJsTest",
+    "compileKotlinWasmWasi",
+    "compileTestKotlinWasmWasi",
+    "wasmWasiMainClasses",
+    "wasmWasiTestClasses",
+    "wasmWasiJar",
+    "wasmWasiTest",
+)
+
+wasmYarnLockBuildTasks.forEach { taskName ->
+    tasks.named(taskName) {
+        dependsOn("kotlinWasmUpgradeYarnLock")
+    }
+}
+
+val xcodeSwiftExportEnvironmentNames = listOf(
+    "SDK_NAME",
+    "CONFIGURATION",
+    "TARGET_BUILD_DIR",
+    "BUILT_PRODUCTS_DIR",
+    "ARCHS",
+    "FRAMEWORKS_FOLDER_PATH",
+    "DEPLOYMENT_TARGET_SETTING_NAME",
+)
+
+fun hasXcodeSwiftExportEnvironment(): Boolean {
+    if (!xcodeSwiftExportEnvironmentNames.all { !System.getenv(it).isNullOrBlank() }) {
+        return false
+    }
+
+    val deploymentTargetSettingName = System.getenv("DEPLOYMENT_TARGET_SETTING_NAME")
+    return !System.getenv(deploymentTargetSettingName).isNullOrBlank()
+}
+
+val swiftExportTaskDirectlyRequested =
+    gradle.startParameter.taskNames.any { it == "embedSwiftExportForXcode" || it.endsWith(":embedSwiftExportForXcode") }
+
+tasks.matching { it.name == "embedSwiftExportForXcode" }.configureEach {
+    onlyIf {
+        val hasXcodeEnvironment = hasXcodeSwiftExportEnvironment()
+        if (!hasXcodeEnvironment && !swiftExportTaskDirectlyRequested) {
+            logger.lifecycle("embedSwiftExportForXcode: skipped because Xcode environment variables are not present")
+        }
+        hasXcodeEnvironment || swiftExportTaskDirectlyRequested
+    }
+}
+
+val fullTargetBuildTasks = listOf(
+    "compileAndroidMain",
+    "compileAndroidHostTest",
+    "compileAndroidDeviceTest",
+    "assembleAndroidMain",
+    "assembleAndroidHostTest",
+    "assembleAndroidDeviceTest",
+    "assembleUnitTest",
+    "assembleAndroidTest",
+    "testAndroidHostTest",
+    "jvmMainClasses",
+    "jvmTestClasses",
+    "jvmTest",
+    "jsMainClasses",
+    "jsTestClasses",
+    "jsBrowserTest",
+    "jsNodeTest",
+    "jsTest",
+    "wasmJsMainClasses",
+    "wasmJsTestClasses",
+    "wasmJsBrowserTest",
+    "wasmJsNodeTest",
+    "wasmJsTest",
+    "wasmWasiMainClasses",
+    "wasmWasiTestClasses",
+    "wasmWasiNodeTest",
+    "wasmWasiTest",
+    "androidNativeArm32Binaries",
+    "androidNativeArm32TestBinaries",
+    "androidNativeArm64Binaries",
+    "androidNativeArm64TestBinaries",
+    "androidNativeX64Binaries",
+    "androidNativeX64TestBinaries",
+    "androidNativeX86Binaries",
+    "androidNativeX86TestBinaries",
+    "iosArm64Binaries",
+    "iosArm64TestBinaries",
+    "iosSimulatorArm64Binaries",
+    "iosSimulatorArm64TestBinaries",
+    "iosX64Binaries",
+    "iosX64TestBinaries",
+    "linuxArm64Binaries",
+    "linuxArm64TestBinaries",
+    "linuxX64Binaries",
+    "linuxX64TestBinaries",
+    "linuxX64Test",
+    "macosArm64Binaries",
+    "macosArm64TestBinaries",
+    "macosArm64Test",
+    "mingwX64Binaries",
+    "mingwX64TestBinaries",
+    "mingwX64Test",
+    "tvosArm64Binaries",
+    "tvosArm64TestBinaries",
+    "tvosSimulatorArm64Binaries",
+    "tvosSimulatorArm64TestBinaries",
+    "watchosArm32Binaries",
+    "watchosArm32TestBinaries",
+    "watchosArm64Binaries",
+    "watchosArm64TestBinaries",
+    "watchosDeviceArm64Binaries",
+    "watchosDeviceArm64TestBinaries",
+    "watchosSimulatorArm64Binaries",
+    "watchosSimulatorArm64TestBinaries",
+    "embedSwiftExportForXcode",
+    "assembleSchemarsXCFramework",
+    "assembleSchemarsDebugXCFramework",
+    "assembleSchemarsReleaseXCFramework",
+    "assembleDebugIosFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseIosFatFrameworkForSchemarsXCFramework",
+    "assembleDebugIosSimulatorFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseIosSimulatorFatFrameworkForSchemarsXCFramework",
+    "assembleDebugMacosFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseMacosFatFrameworkForSchemarsXCFramework",
+    "assembleDebugTvosFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseTvosFatFrameworkForSchemarsXCFramework",
+    "assembleDebugTvosSimulatorFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseTvosSimulatorFatFrameworkForSchemarsXCFramework",
+    "assembleDebugWatchosFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseWatchosFatFrameworkForSchemarsXCFramework",
+    "assembleDebugWatchosSimulatorFatFrameworkForSchemarsXCFramework",
+    "assembleReleaseWatchosSimulatorFatFrameworkForSchemarsXCFramework",
+    "exportCommonSourceSetsMetadataLocationsForMetadataApiElements",
+    "exportRootPublicationCoordinatesForMetadataApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeArm32ApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeArm64ApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeX64ApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeX86ApiElements",
+    "exportCrossCompilationMetadataForIosArm64ApiElements",
+    "exportCrossCompilationMetadataForIosSimulatorArm64ApiElements",
+    "exportCrossCompilationMetadataForIosX64ApiElements",
+    "exportCrossCompilationMetadataForLinuxArm64ApiElements",
+    "exportCrossCompilationMetadataForLinuxX64ApiElements",
+    "exportCrossCompilationMetadataForMacosArm64ApiElements",
+    "exportCrossCompilationMetadataForMingwX64ApiElements",
+    "exportCrossCompilationMetadataForTvosArm64ApiElements",
+    "exportCrossCompilationMetadataForTvosSimulatorArm64ApiElements",
+    "exportCrossCompilationMetadataForWatchosArm32ApiElements",
+    "exportCrossCompilationMetadataForWatchosArm64ApiElements",
+    "exportCrossCompilationMetadataForWatchosDeviceArm64ApiElements",
+    "exportCrossCompilationMetadataForWatchosSimulatorArm64ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeArm32ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeArm64ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeX64ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeX86ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidRuntimeElements",
+    "exportTargetPublicationCoordinatesForIosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForIosSimulatorArm64ApiElements",
+    "exportTargetPublicationCoordinatesForIosX64ApiElements",
+    "exportTargetPublicationCoordinatesForJsApiElements",
+    "exportTargetPublicationCoordinatesForJsRuntimeElements",
+    "exportTargetPublicationCoordinatesForJvmApiElements",
+    "exportTargetPublicationCoordinatesForJvmRuntimeElements",
+    "exportTargetPublicationCoordinatesForLinuxArm64ApiElements",
+    "exportTargetPublicationCoordinatesForLinuxX64ApiElements",
+    "exportTargetPublicationCoordinatesForMacosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForMingwX64ApiElements",
+    "exportTargetPublicationCoordinatesForTvosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForTvosSimulatorArm64ApiElements",
+    "exportTargetPublicationCoordinatesForWasmJsApiElements",
+    "exportTargetPublicationCoordinatesForWasmJsRuntimeElements",
+    "exportTargetPublicationCoordinatesForWasmWasiApiElements",
+    "exportTargetPublicationCoordinatesForWasmWasiRuntimeElements",
+    "exportTargetPublicationCoordinatesForWatchosArm32ApiElements",
+    "exportTargetPublicationCoordinatesForWatchosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForWatchosDeviceArm64ApiElements",
+    "exportTargetPublicationCoordinatesForWatchosSimulatorArm64ApiElements",
+)
+
+tasks.named("build") {
+    dependsOn(fullTargetBuildTasks)
+}
+
+afterEvaluate {
+    tasks.named("build") {
+        dependsOn(
+            tasks.matching {
+                name.endsWith("MainClasses") ||
+                    name.endsWith("TestClasses") ||
+                    name.endsWith("Binaries") ||
+                    name.endsWith("XCFramework") ||
+                    name == "embedSwiftExportForXcode" ||
+                    name.startsWith("exportCommonSourceSetsMetadataLocationsFor") ||
+                    name.startsWith("exportRootPublicationCoordinatesFor") ||
+                    name.startsWith("exportCrossCompilationMetadataFor") ||
+                    name.startsWith("exportTargetPublicationCoordinatesFor")
+            },
+        )
+    }
+}
+
+// ---------------------------------------------------------------------------
+// CodeQL Java/Kotlin extraction task
+//
+// .github/workflows/codeql.yml invokes `./gradlew codeqlCompileJvm` to feed
+// kotlinc-compiled commonMain through the CodeQL Java agent.
+val codeqlKotlinc: Configuration by configurations.creating {
+    description = "Kotlin compiler (CodeQL extraction target only — not published)"
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+val codeqlSourceClasspath: Configuration by configurations.creating {
+    description = "Runtime classpath for CodeQL extraction of commonMain sources"
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+val codeqlAndroidAar: Configuration by configurations.creating {
+    description = "Android AAR artifacts for CodeQL classpath extraction (classes.jar only)"
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+dependencies {
+    codeqlKotlinc("org.jetbrains.kotlin:kotlin-compiler-embeddable:2.3.21")
+    codeqlSourceClasspath("org.jetbrains.kotlin:kotlin-stdlib:2.3.21")
+    codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.11.0")
+    codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.11.0")
+    codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.11.0")
+    codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.8.0")
+    codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.4.0")
+}
+
+val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
+    description =
+        "Compile commonMain Kotlin sources with kotlinc 2.3.21 for CodeQL Java/Kotlin extraction."
+    group = "verification"
+
+    classpath(codeqlKotlinc)
+    mainClass.set("org.jetbrains.kotlin.cli.jvm.K2JVMCompiler")
+
+    val outDir = layout.buildDirectory.dir("classes/kotlin/codeql-jvm")
+    val aarExtractDir = layout.buildDirectory.dir("codeql/android-aar")
+    val commonSources = fileTree("src/commonMain/kotlin") { include("**/*.kt") }
+    val platformSources = fileTree("src/androidMain/kotlin") { include("**/*.kt") }
+    val sources = files(commonSources, platformSources)
+    val sentinelDir = layout.buildDirectory.dir("generated/codeql-empty-source")
+    inputs.files(sources).withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.files(codeqlSourceClasspath).withNormalizer(ClasspathNormalizer::class.java)
+    inputs.files(codeqlAndroidAar).withNormalizer(ClasspathNormalizer::class.java)
+    outputs.dir(outDir)
+    outputs.dir(aarExtractDir)
+    outputs.dir(sentinelDir)
+
+    doFirst {
+        outDir.get().asFile.mkdirs()
+        val extractedJars = mutableListOf<File>()
+        for (aar in codeqlAndroidAar.resolve()) {
+            val extractTarget = aarExtractDir.get().asFile.resolve(aar.nameWithoutExtension)
+            extractTarget.mkdirs()
+            copy {
+                from(zipTree(aar))
+                include("classes.jar")
+                into(extractTarget)
+            }
+            val classesJar = extractTarget.resolve("classes.jar")
+            if (classesJar.exists()) {
+                extractedJars += classesJar
+            }
+        }
+        val fullClasspath =
+            (codeqlSourceClasspath.resolve() + extractedJars)
+                .joinToString(File.pathSeparator) { it.absolutePath }
+        val commonSourceFiles = commonSources.files.toMutableList()
+        val sourceFiles = sources.files.toMutableList()
+        if (sourceFiles.isEmpty()) {
+            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/schemars/codeql/_CodeqlEmptySource.kt")
+            sentinelFile.parentFile.mkdirs()
+            sentinelFile.writeText(
+                """
+                // Auto-generated. Present so codeqlCompileJvm has at least
+                // one Kotlin source to feed kotlinc; replaced by real
+                // commonMain content once porting begins.
+                package io.github.kotlinmania.schemars.codeql
+
+                private object _CodeqlEmptySource
+                """.trimIndent(),
+            )
+            commonSourceFiles += sentinelFile
+            sourceFiles += sentinelFile
+        }
+        args = listOf(
+            "-d", outDir.get().asFile.absolutePath,
+            "-classpath", fullClasspath,
+            "-jvm-target", "21",
+            "-no-stdlib",
+            "-no-reflect",
+            "-language-version", "2.3",
+            "-api-version", "2.3",
+            "-Xmulti-platform",
+            "-Xcommon-sources=${commonSourceFiles.joinToString(",") { it.absolutePath }}",
+            "-Xexpect-actual-classes",
+            "-opt-in", "kotlin.time.ExperimentalTime",
+            "-opt-in", "kotlin.concurrent.atomics.ExperimentalAtomicApi",
+        ) + sourceFiles.map { it.absolutePath }
+    }
 }
 
 // The generated Wasm-WASI Node test runner cannot see the filesystem unless
