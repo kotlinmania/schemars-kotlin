@@ -45,7 +45,7 @@ class JsonObjectBuilder internal constructor() {
 }
 
 /** Inline-object helper for nesting inside a [jsonSchema] block. */
-fun obj(block: JsonObjectBuilder.() -> Unit): Value {
+internal fun obj(block: JsonObjectBuilder.() -> Unit): Value {
     val builder = JsonObjectBuilder()
     builder.block()
     return Value.Object(builder.entries)

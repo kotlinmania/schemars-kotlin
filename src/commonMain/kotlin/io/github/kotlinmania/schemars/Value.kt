@@ -2,7 +2,7 @@
 package io.github.kotlinmania.schemars
 
 /** A JSON value: null, bool, number, string, array, or object with insertion-order entries. */
-sealed class Value {
+internal sealed class Value {
     /** JSON `null`. */
     data object Null : Value()
 

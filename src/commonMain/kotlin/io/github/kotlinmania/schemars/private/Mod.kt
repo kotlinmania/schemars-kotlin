@@ -194,8 +194,8 @@ internal class AllowUnknownProperties(var didModify: Boolean = false) : Transfor
     }
 }
 
-class MaybeSerializeWrapper(val value: Value?) {
-    fun maybeToValue(): Value? = value
+internal class MaybeSerializeWrapper(val value: Value?) {
+    internal fun maybeToValue(): Value? = value
 }
 
 /** Create a schema for a unit enum variant. */
@@ -276,7 +276,7 @@ fun insertMetadataPropertyIfNonempty(schema: Schema, key: String, value: String)
     }
 }
 
-fun insertValidationProperty(
+internal fun insertValidationProperty(
     schema: Schema,
     requiredType: String,
     key: String,

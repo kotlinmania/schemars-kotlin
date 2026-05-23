@@ -55,7 +55,7 @@ data class SchemaSettings(
      *
      * Defaults to an empty list (no transforms).
      */
-    var transforms: MutableList<Transform>,
+    var transforms: List<Transform>,
     /**
      * Inline all subschemas instead of using references.
      *
@@ -91,7 +91,7 @@ data class SchemaSettings(
         fun draft07(): SchemaSettings = SchemaSettings(
             definitionsPath = "/definitions",
             metaSchema = MetaSchemas.DRAFT07,
-            transforms = mutableListOf(
+            transforms = listOf(
                 ReplaceUnevaluatedProperties(),
                 RemoveRefSiblings(),
                 ReplacePrefixItems(),
@@ -115,7 +115,7 @@ data class SchemaSettings(
         fun draft202012(): SchemaSettings = SchemaSettings(
             definitionsPath = "/\$defs",
             metaSchema = MetaSchemas.DRAFT2020_12,
-            transforms = mutableListOf(),
+            transforms = listOf(),
             inlineSubschemas = false,
             contract = Contract.Deserialize,
             untaggedEnumVariantTitles = false,
@@ -125,7 +125,7 @@ data class SchemaSettings(
         fun openapi3(): SchemaSettings = SchemaSettings(
             definitionsPath = "/components/schemas",
             metaSchema = MetaSchemas.OPENAPI3,
-            transforms = mutableListOf(
+            transforms = listOf(
                 ReplaceUnevaluatedProperties(),
                 ReplaceBoolSchemas(skipAdditionalProperties = true),
                 AddNullable(),
@@ -150,8 +150,9 @@ data class SchemaSettings(
      * Appends the given transform to the list of [transforms] for these `SchemaSettings`.
      */
     fun withTransform(transform: Transform): SchemaSettings {
-        transforms.add(transform)
-        return this
+        val newTransforms = transforms.toMutableList()
+        newTransforms.add(transform)
+        return copy(transforms = newTransforms)
     }
 
     /** Creates a new [SchemaGenerator] using these settings. */
@@ -277,10 +278,10 @@ class SchemaGenerator internal constructor(
      * Borrows the collection of all non-inlined schemas that have been generated. The keys are the
      * schema names, and the values are the schemas themselves.
      */
-    fun definitions(): MutableMap<String, Value> = definitions
+    internal fun definitions(): MutableMap<String, Value> = definitions
 
     /** Mutable variant of [definitions]; same return value. */
-    fun definitionsMut(): MutableMap<String, Value> = definitions
+    internal fun definitionsMut(): MutableMap<String, Value> = definitions
 
     /**
      * Returns the collection of all non-inlined schemas that have been generated, leaving an empty
@@ -289,7 +290,7 @@ class SchemaGenerator internal constructor(
      * To apply this generator's transforms to each of the returned schemas, set [applyTransforms]
      * to `true`.
      */
-    fun takeDefinitions(applyTransforms: Boolean): MutableMap<String, Value> {
+    internal fun takeDefinitions(applyTransforms: Boolean): MutableMap<String, Value> {
         val taken: MutableMap<String, Value> = linkedMapOf()
         taken.putAll(definitions)
         definitions.clear()
@@ -308,7 +309,11 @@ class SchemaGenerator internal constructor(
     }
 
     /** Returns a sequence over the [transforms][SchemaSettings.transforms] used by this generator. */
-    fun transformsMut(): MutableList<Transform> = settings.transforms
+    internal fun transformsMut(): MutableList<Transform> {
+        val m = settings.transforms as? MutableList<Transform> ?: settings.transforms.toMutableList()
+        settings.transforms = m
+        return m
+    }
 
     /**
      * Generates a JSON Schema for the given [JsonSchema] type. Includes any non-inlined dependent
@@ -363,7 +368,7 @@ class SchemaGenerator internal constructor(
      * If the value implements [JsonSchema], prefer [rootSchemaFor] which generally produces a
      * more precise schema, particularly when the value contains any enums.
      */
-    fun rootSchemaForValue(value: Value): Schema {
+    internal fun rootSchemaForValue(value: Value): Schema {
         val schema = SchemaForValue.of(value, includeTitle = true)
 
         val obj = schema.ensureObject()
@@ -376,7 +381,7 @@ class SchemaGenerator internal constructor(
     }
 
     /** Consumes `this` and generates a root schema for the given example value. */
-    fun intoRootSchemaForValue(value: Value): Schema {
+    internal fun intoRootSchemaForValue(value: Value): Schema {
         val schema = SchemaForValue.of(value, includeTitle = true)
         val obj = schema.ensureObject()
         obj["examples"] = Value.Array(mutableListOf(value))
