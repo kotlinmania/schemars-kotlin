@@ -1,6 +1,8 @@
 // port-lint: source schema.rs
 package io.github.kotlinmania.schemars
 
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
+
 /*
 JSON Schema types.
 */
@@ -28,7 +30,7 @@ JSON Schema types.
  * Similarly, you can use [Schema.from] to (infallibly) create a `Schema` from an existing
  * `Map<String, Value>` or `Boolean`.
  */
-class Schema private constructor(private var innerRef: Value) {
+class Schema private constructor(private var innerRef: Value) : JsonSchema {
     internal val inner: Value
         get() = innerRef
 
@@ -62,6 +64,15 @@ class Schema private constructor(private var innerRef: Value) {
             validate(value)?.let { return SchemaResult.err(it) }
             return SchemaResult.ok(Schema(value))
         }
+
+        /**
+         * Mirrors the upstream Rust `Deserialize` impl on [Schema]: validates that the underlying
+         * [Value] is either an [Object][Value.Object] or a [Bool][Value.Bool], and wraps it in a
+         * [Schema]. The Rust impl rejects every other JSON shape — null, number, string, array —
+         * via `serde::de::Error::invalid_type`; the Kotlin port surfaces the same rejection via
+         * [SchemaResult.error] carrying a [SchemaConversionError].
+         */
+        internal fun deserialize(value: Value): SchemaResult = tryFrom(value)
 
         internal fun validate(value: Value): SchemaConversionError? {
             val unexpected: String = when (value) {
@@ -221,6 +232,141 @@ class Schema private constructor(private var innerRef: Value) {
     override fun hashCode(): Int = innerRef.hashCode()
 
     override fun toString(): String = "Schema($innerRef)"
+
+    /**
+     * Mirrors the upstream Rust `Serialize` impl on [Schema]: returns a re-ordered [Value]
+     * tree in which JSON-Schema-significant keys appear in the conventional order
+     * `[$id, $schema, title, description, type, format, properties]` first, all custom keys
+     * next, and `[$defs, definitions]` last. Nested subschemas are re-ordered recursively
+     * via [OrderedKeywordWrapper]. Upstream feeds this re-ordering into a `serde::Serializer`
+     * to produce a JSON string; the Kotlin port leaves the string-encoding step to whatever
+     * downstream JSON writer the consumer already uses against the [Value] tree.
+     */
+    internal fun serialize(): Value = OrderedKeywordWrapper.from(innerRef).serialize()
+
+    /**
+     * Mirrors the upstream `impl JsonSchema for Schema`. Rust's trait functions are type-level
+     * (`Schema::schema_name()`); the Kotlin [JsonSchema] interface is instance-based, so the
+     * port answers the same questions from any [Schema] instance. The schema produced by
+     * [jsonSchema] describes the JSON-Schema-of-a-JSON-Schema: a value that is either an
+     * object or a boolean.
+     */
+    override fun schemaName(): String = "Schema"
+
+    override fun schemaId(): String = "schemars::Schema"
+
+    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
+        this["type"] = listOf("object", "boolean")
+    }
+}
+
+/**
+ * The order of properties in a JSON Schema object is insignificant, but a small set of keys
+ * are explicitly ordered to make schemas easier for a human to read. All other properties are
+ * ordered either lexicographically (by default) or by insertion order (if `preserve_order` is
+ * enabled, which on the Kotlin port is always the case because [Value.Object] preserves
+ * insertion order via [linkedMapOf]).
+ *
+ * [noReorder] is `true` when the wrapped value is expected to be an object that is NOT a
+ * schema but whose property values *are* expected to be schemas — `properties`,
+ * `patternProperties`, `dependentSchemas`, `$defs`, `definitions`. In that case the direct
+ * properties keep their insertion order, but the nested subschemas are still re-ordered.
+ *
+ * When [noReorder] is `false`, the wrapped value is expected to be one of:
+ * - a JSON schema object
+ * - an array of JSON schemas
+ * - a JSON primitive value (null / string / number / bool)
+ *
+ * If any of these expectations are not met, the value is still serialized in a valid way,
+ * but the property ordering may be unclear.
+ */
+internal class OrderedKeywordWrapper private constructor(
+    private val value: Value,
+    private val noReorder: Boolean,
+) {
+    companion object {
+        internal val ORDERED_KEYWORDS_START: List<String> = listOf(
+            "\$id",
+            "\$schema",
+            "title",
+            "description",
+            "type",
+            "format",
+            "properties",
+        )
+        internal val ORDERED_KEYWORDS_END: List<String> = listOf(
+            "\$defs",
+            "definitions",
+        )
+
+        internal fun from(value: Value): OrderedKeywordWrapper =
+            OrderedKeywordWrapper(value = value, noReorder = false)
+    }
+
+    internal fun serialize(): Value = when (val v = value) {
+        is Value.Array -> Value.Array(
+            v.items.mapTo(mutableListOf()) { OrderedKeywordWrapper.from(it).serialize() },
+        )
+        is Value.Object -> if (noReorder) {
+            // Upstream: `Value::Object(object) if self.no_reorder`. Direct properties keep
+            // insertion order; nested subschema values still get re-ordered via the default
+            // (non-no-reorder) wrapper.
+            val out = linkedMapOf<String, Value>()
+            for ((key, sub) in v.entries) {
+                out[key] = OrderedKeywordWrapper.from(sub).serialize()
+            }
+            Value.Object(out)
+        } else {
+            // Upstream: `Value::Object(object)` (the default branch). Emit
+            // [ORDERED_KEYWORDS_START] first, then every other key, then
+            // [ORDERED_KEYWORDS_END] — all through [serializeSchemaProperty] so the
+            // examples / default / `x-` prefix exceptions are preserved.
+            val out = linkedMapOf<String, Value>()
+            for (key in ORDERED_KEYWORDS_START) {
+                v.entries[key]?.let { sub -> serializeSchemaProperty(out, key, sub) }
+            }
+            for ((key, sub) in v.entries) {
+                if (key !in ORDERED_KEYWORDS_START && key !in ORDERED_KEYWORDS_END) {
+                    serializeSchemaProperty(out, key, sub)
+                }
+            }
+            for (key in ORDERED_KEYWORDS_END) {
+                v.entries[key]?.let { sub -> serializeSchemaProperty(out, key, sub) }
+            }
+            Value.Object(out)
+        }
+        // Upstream: `Value::Null | Value::Bool(_) | Value::Number(_) | Value::String(_) =>
+        // self.value.serialize(serializer)` — every primitive flows through unchanged.
+        is Value.Null, is Value.Bool, is Value.Number, is Value.Str -> v
+    }
+
+    /**
+     * Mirrors the upstream nested helper `serialize_schema_property`. Keys whose values are
+     * not themselves schemas (`examples`, `default`, every `x-`-prefixed custom key) pass
+     * through unchanged. Keys whose values are objects-of-schemas (`properties`,
+     * `patternProperties`, `dependentSchemas`, `$defs`, `definitions`) wrap their value in
+     * a [noReorder]-`true` [OrderedKeywordWrapper] so the immediate map's keys keep their
+     * insertion order but the nested subschemas are still re-ordered. Every other key is
+     * treated as a schema value and re-ordered.
+     */
+    private fun serializeSchemaProperty(
+        out: MutableMap<String, Value>,
+        key: String,
+        value: Value,
+    ) {
+        if (key == "examples" || key == "default" || key.startsWith("x-")) {
+            // Value(s) of `examples`/`default` are plain values, not schemas. Also don't
+            // re-order values of custom properties.
+            out[key] = value
+        } else {
+            val nestedNoReorder = key == "properties" ||
+                key == "patternProperties" ||
+                key == "dependentSchemas" ||
+                key == "\$defs" ||
+                key == "definitions"
+            out[key] = OrderedKeywordWrapper(value, nestedNoReorder).serialize()
+        }
+    }
 }
 
 /**
