@@ -378,7 +378,7 @@ class RestrictFormats(
      * Values of the `format` property in schemas that will always be allowed, regardless of the
      * inferred version of JSON Schema.
      */
-    var allowedFormats: MutableSet<String> = sortedSetOf(),
+    var allowedFormats: Set<String> = sortedSetOf(),
 ) : Transform {
     override fun transform(schema: Schema) {
         val impl = RestrictFormatsImpl(

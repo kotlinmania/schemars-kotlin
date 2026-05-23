@@ -29,7 +29,7 @@ JSON Schema types.
  * `Map<String, Value>` or `Boolean`.
  */
 class Schema private constructor(private var innerRef: Value) {
-    val inner: Value
+    internal val inner: Value
         get() = innerRef
 
     companion object {
@@ -46,7 +46,7 @@ class Schema private constructor(private var innerRef: Value) {
         }
 
         /** Construct a `Schema` from an object map of properties. */
-        fun from(o: MutableMap<String, Value>): Schema = Schema(Value.Object(o))
+        internal fun from(o: MutableMap<String, Value>): Schema = Schema(Value.Object(o))
 
         /** Construct a `Schema` from a bool. */
         fun from(b: Boolean): Schema = Schema(Value.Bool(b))
@@ -58,12 +58,12 @@ class Schema private constructor(private var innerRef: Value) {
          * Try to construct a `Schema` from a `Value`. Returns the wrapped schema on success or
          * a [SchemaConversionException] describing the unexpected type.
          */
-        fun tryFrom(value: Value): Result<Schema> {
-            validate(value)?.let { return Result.failure(it) }
-            return Result.success(Schema(value))
+        internal fun tryFrom(value: Value): SchemaResult {
+            validate(value)?.let { return SchemaResult.err(it) }
+            return SchemaResult.ok(Schema(value))
         }
 
-        internal fun validate(value: Value): SchemaConversionException? {
+        internal fun validate(value: Value): SchemaConversionError? {
             val unexpected: String = when (value) {
                 is Value.Bool, is Value.Object -> return null
                 is Value.Null -> "unit"
@@ -75,12 +75,12 @@ class Schema private constructor(private var innerRef: Value) {
                 is Value.Str -> "string ${value.value}"
                 is Value.Array -> "sequence"
             }
-            return SchemaConversionException("invalid type: $unexpected, expected object or boolean")
+            return SchemaConversionError("invalid type: $unexpected, expected object or boolean")
         }
     }
 
     /** Borrows the `Schema`'s underlying JSON value. */
-    fun asValue(): Value = innerRef
+    internal fun asValue(): Value = innerRef
 
     /** If the `Schema`'s underlying JSON value is a bool, returns the bool value. */
     fun asBool(): Boolean? = innerRef.asBool()
@@ -89,28 +89,28 @@ class Schema private constructor(private var innerRef: Value) {
      * If the `Schema`'s underlying JSON value is an object, borrows the object as a `Map` of
      * properties.
      */
-    fun asObject(): MutableMap<String, Value>? = innerRef.asObject()
+    internal fun asObject(): MutableMap<String, Value>? = innerRef.asObject()
 
     /**
      * If the `Schema`'s underlying JSON value is an object, mutably borrows the object as a `Map`
      * of properties.
      */
-    fun asObjectMut(): MutableMap<String, Value>? = innerRef.asObject()
+    internal fun asObjectMut(): MutableMap<String, Value>? = innerRef.asObject()
 
-    fun tryToObject(): TryToObjectResult = when (val v = innerRef) {
+    internal fun tryToObject(): TryToObjectResult = when (val v = innerRef) {
         is Value.Object -> TryToObjectResult.Ok(v.entries)
         is Value.Bool -> TryToObjectResult.Err(v.value)
         else -> error("Schema inner value should always be Object or Bool")
     }
 
-    fun tryAsObjectMut(): TryToObjectResult = when (val v = innerRef) {
+    internal fun tryAsObjectMut(): TryToObjectResult = when (val v = innerRef) {
         is Value.Object -> TryToObjectResult.Ok(v.entries)
         is Value.Bool -> TryToObjectResult.Err(v.value)
         else -> error("Schema inner value should always be Object or Bool")
     }
 
     /** Returns the `Schema`'s underlying JSON value. */
-    fun toValue(): Value = innerRef
+    internal fun toValue(): Value = innerRef
 
     /**
      * Converts the `Schema` (if it wraps a bool value) into an equivalent object schema, then
@@ -120,7 +120,7 @@ class Schema private constructor(private var innerRef: Value) {
      * possible values. `false` is transformed into the schema `{"not": {}}`, which does not
      * successfully validate against any value.
      */
-    fun ensureObject(): MutableMap<String, Value> {
+    internal fun ensureObject(): MutableMap<String, Value> {
         val b = asBool()
         if (b != null) {
             val map = linkedMapOf<String, Value>()
@@ -138,7 +138,7 @@ class Schema private constructor(private var innerRef: Value) {
      * If the schema wraps a bool value, it will first be converted into an equivalent object
      * schema via [ensureObject]. Returns the previous value, if any.
      */
-    fun insert(k: String, v: Value): Value? {
+    internal fun insert(k: String, v: Value): Value? {
         val obj = ensureObject()
         return obj.put(k, v)
     }
@@ -149,7 +149,7 @@ class Schema private constructor(private var innerRef: Value) {
      *
      * This always returns `null` for bool schemas.
      */
-    fun get(key: String): Value? = innerRef.asObject()?.get(key)
+    internal fun get(key: String): Value? = innerRef.asObject()?.get(key)
 
     /**
      * If the `Schema`'s underlying JSON value is an object, gets a mutable reference to that
@@ -157,7 +157,7 @@ class Schema private constructor(private var innerRef: Value) {
      *
      * This always returns `null` for bool schemas.
      */
-    fun getMut(key: String): Value? = innerRef.asObject()?.get(key)
+    internal fun getMut(key: String): Value? = innerRef.asObject()?.get(key)
 
     /**
      * If the `Schema`'s underlying JSON value is an object, looks up a value within the schema
@@ -170,7 +170,7 @@ class Schema private constructor(private var innerRef: Value) {
      *
      * This always returns `null` for bool schemas.
      */
-    fun pointer(pointer: String): Value? {
+    internal fun pointer(pointer: String): Value? {
         return if (pointer.startsWith("#")) {
             val decoded = percentDecode(pointer.substring(1)) ?: return null
             innerRef.pointer(decoded)
@@ -190,13 +190,13 @@ class Schema private constructor(private var innerRef: Value) {
      *
      * This always returns `null` for bool schemas.
      */
-    fun pointerMut(pointer: String): Value? = pointer(pointer)
+    internal fun pointerMut(pointer: String): Value? = pointer(pointer)
 
     /**
      * If the `Schema`'s underlying JSON value is an object, removes and returns its value for the
      * given key. Always returns `null` for bool schemas, without modifying them.
      */
-    fun remove(key: String): Value? = innerRef.asObject()?.remove(key)
+    internal fun remove(key: String): Value? = innerRef.asObject()?.remove(key)
 
     internal fun hasType(ty: String): Boolean {
         return when (val t = innerRef.asObject()?.get("type")) {
@@ -224,13 +224,47 @@ class Schema private constructor(private var innerRef: Value) {
 }
 
 /**
- * A schema-conversion error raised when [Schema.tryFrom] receives a value that is neither an
- * object nor a bool.
+ * A schema-conversion error payload raised when [Schema.tryFrom] receives a value that is neither an
+ * object nor a bool. This is separated from the Exception to avoid Swift Export Unchecked Cast bugs.
  */
-class SchemaConversionException(message: String) : RuntimeException(message)
+class SchemaConversionError internal constructor(val message: String) {
+    override fun toString(): String = "SchemaConversionError($message)"
+}
+
+/** The internal exception thrown when getOrThrow() fails. */
+internal class SchemaConversionException(val error: SchemaConversionError) : RuntimeException(error.message)
+
+/** A custom Result type for [Schema.tryFrom] to avoid exporting Kotlin's built-in Result to Swift */
+class SchemaResult internal constructor(
+    val value: Schema?,
+    val error: SchemaConversionError?
+) {
+    init {
+        require((value == null) != (error == null)) {
+            "SchemaResult must carry exactly one of value or error (got value=$value, error=$error)"
+        }
+    }
+
+    companion object {
+        internal fun ok(value: Schema) = SchemaResult(value, null)
+        internal fun err(error: SchemaConversionError) = SchemaResult(null, error)
+    }
+
+    fun isSuccess(): Boolean = value != null
+    fun isFailure(): Boolean = error != null
+
+    fun getOrThrow(): Schema = when {
+        value != null -> value
+        error != null -> throw SchemaConversionException(error)
+        else -> error("SchemaResult class invariant violated: both value and error are null")
+    }
+
+    fun getOrNull(): Schema? = value
+    fun exceptionOrNull(): SchemaConversionError? = error
+}
 
 /** Result of [Schema.tryToObject] / [Schema.tryAsObjectMut]. */
-sealed class TryToObjectResult {
+internal sealed class TryToObjectResult {
     data class Ok(val entries: MutableMap<String, Value>) : TryToObjectResult()
     data class Err(val bool: Boolean) : TryToObjectResult()
 }
@@ -239,4 +273,4 @@ sealed class TryToObjectResult {
 fun Boolean.toSchema(): Schema = Schema.from(this)
 
 /** Convert an object map to a `Schema` using `Schema.from(this)`. */
-fun MutableMap<String, Value>.toSchema(): Schema = Schema.from(this)
+internal fun MutableMap<String, Value>.toSchema(): Schema = Schema.from(this)
