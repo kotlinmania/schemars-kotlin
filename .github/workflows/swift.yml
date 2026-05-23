@@ -34,16 +34,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6.1.0
 
-      # Pin the Xcode version explicitly so the SDK matches what Kotlin/Native
-      # 2.3.x was built against. The macos-26 image carries 26.0.1 / 26.1.1 /
-      # 26.2 / 26.3 / 26.4.1 / 26.5; 26.4.1 is the image default. We pin
-      # explicitly so an image refresh that bumps the default can't silently
-      # break the link step.
-      - name: Select Xcode 26.4.1
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '26.4.1'
-
+      # NOTE: do NOT add a `maxim-lobanov/setup-xcode` step here.
+      # KotlinMania's enterprise GitHub Actions policy does not whitelist
+      # third-party actions; a workflow that references one returns
+      # startup_failure with zero jobs spawned. The macos-26 image's default
+      # Xcode is already in the 26.x line (currently 26.4.1) and supplies the
+      # macOS 26 SDK symbols the Kotlin/Native 2.3.x platform caches expect.
+      # A working run prints "Target: arm64-apple-macosx26.0" from
+      # `swift --version` straight off the image default.
       - name: Print Swift / Xcode versions
         run: |
           swift --version
