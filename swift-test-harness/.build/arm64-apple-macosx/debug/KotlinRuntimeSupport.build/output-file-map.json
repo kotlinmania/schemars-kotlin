@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/primary.swiftdeps"
+  },
+  "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupport/KotlinRuntimeSupport.swift": {
+    "dependencies": "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.d",
+    "object": "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.swift.o",
+    "swiftmodule": "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport~partial.swiftmodule",
+    "swift-dependencies": "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.swiftdeps",
+    "diagnostics": "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.dia"
+  }
+}

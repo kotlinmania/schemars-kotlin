@@ -1,0 +1,27 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "debug",
+          "kind" : "fileSystem",
+          "location" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug",
+          "name" : "Schemars"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug"
+        },
+        "subpath" : "debug"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

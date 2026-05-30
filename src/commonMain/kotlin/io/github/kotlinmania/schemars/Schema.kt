@@ -12,12 +12,16 @@ sealed interface Schema {
     /**
      * A schema that always validates (`true`) or always fails (`false`).
      */
-    data class Bool(val value: Boolean) : Schema
+    data class Bool(
+        val value: Boolean,
+    ) : Schema
 
     /**
      * A schema described by the contained [SchemaObject].
      */
-    data class Object(val obj: SchemaObject) : Schema
+    data class Object(
+        val obj: SchemaObject,
+    ) : Schema
 }
 
 /**

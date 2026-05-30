@@ -1,0 +1,1447 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.xctest/Contents/MacOS/SwiftTestHarnessPackageTests",
+      "packagePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness",
+      "productName" : "SwiftTestHarnessPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.ExportedKotlinPackages-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/sources",
+      "importPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/ExportedKotlinPackages/ExportedKotlinPackages.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntime.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "ExportedKotlinPackages",
+      "moduleOutputPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/ExportedKotlinPackages.swiftmodule",
+      "objects" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/ExportedKotlinPackages.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j32",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+        "-module-cache-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/include/ExportedKotlinPackages-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "debug"
+      ],
+      "outputFileMapPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/ExportedKotlinPackages.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/ExportedKotlinPackages.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/ExportedKotlinPackages/ExportedKotlinPackages.swift"
+      ],
+      "tempsPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.KotlinRuntimeSupport-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/sources",
+      "importPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupport/KotlinRuntimeSupport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupportBridge.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntime.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "KotlinRuntimeSupport",
+      "moduleOutputPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinRuntimeSupport.swiftmodule",
+      "objects" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j32",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+        "-module-cache-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/include/KotlinRuntimeSupport-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "debug"
+      ],
+      "outputFileMapPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinRuntimeSupport.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupport/KotlinRuntimeSupport.swift"
+      ],
+      "tempsPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.KotlinStdlib-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/sources",
+      "importPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinStdlib/KotlinStdlib.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/ExportedKotlinPackages.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinRuntimeSupport.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinBridges_KotlinStdlib.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntime.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "KotlinStdlib",
+      "moduleOutputPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinStdlib.swiftmodule",
+      "objects" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/KotlinStdlib.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j32",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+        "-module-cache-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/include/KotlinStdlib-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "debug"
+      ],
+      "outputFileMapPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/KotlinStdlib.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinStdlib.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinStdlib/KotlinStdlib.swift"
+      ],
+      "tempsPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.Schemars-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/sources",
+      "importPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/Schemars/Schemars.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/ExportedKotlinPackages.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinRuntimeSupport.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinStdlib.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SharedBridge_Schemars.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntime.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "Schemars",
+      "moduleOutputPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/Schemars.swiftmodule",
+      "objects" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/Schemars.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j32",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+        "-module-cache-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/include/Schemars-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "debug"
+      ],
+      "outputFileMapPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/Schemars.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/Schemars.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/Schemars/Schemars.swift"
+      ],
+      "tempsPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.SwiftTestHarnessPackageTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/sources",
+      "importPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/SwiftTestHarnessTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "SwiftTestHarnessPackageTests",
+      "moduleOutputPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/SwiftTestHarnessPackageTests.swiftmodule",
+      "objects" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j32",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+        "-module-cache-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/include/SwiftTestHarnessPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift_test_harness"
+      ],
+      "outputFileMapPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/SwiftTestHarnessPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.SwiftTestHarnessTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/sources",
+      "importPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/Tests/SwiftTestHarnessTests/SchemarsExportTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/ExportedKotlinPackages.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinRuntimeSupport.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/Schemars.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/KotlinStdlib.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "SwiftTestHarnessTests",
+      "moduleOutputPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/SwiftTestHarnessTests.swiftmodule",
+      "objects" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/SchemarsExportTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j32",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include",
+        "-Xcc",
+        "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+        "-module-cache-path",
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift_test_harness"
+      ],
+      "outputFileMapPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/SchemarsExportTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules/SwiftTestHarnessTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/Tests/SwiftTestHarnessTests/SchemarsExportTests.swift"
+      ],
+      "tempsPath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "ExportedKotlinPackages" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "ExportedKotlinPackages",
+      "-package-name",
+      "debug",
+      "-c",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/ExportedKotlinPackages/ExportedKotlinPackages.swift",
+      "-I",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j32",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+      "-module-cache-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/include/ExportedKotlinPackages-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "debug",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "KotlinRuntimeSupport" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "KotlinRuntimeSupport",
+      "-package-name",
+      "debug",
+      "-c",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupport/KotlinRuntimeSupport.swift",
+      "-I",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j32",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+      "-module-cache-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/include/KotlinRuntimeSupport-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "debug",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "KotlinStdlib" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "KotlinStdlib",
+      "-package-name",
+      "debug",
+      "-c",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinStdlib/KotlinStdlib.swift",
+      "-I",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j32",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+      "-module-cache-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/include/KotlinStdlib-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "debug",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "Schemars" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "Schemars",
+      "-package-name",
+      "debug",
+      "-c",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/Schemars/Schemars.swift",
+      "-I",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j32",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+      "-module-cache-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/include/Schemars-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "debug",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "SwiftTestHarnessPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "SwiftTestHarnessPackageTests",
+      "-package-name",
+      "swift_test_harness",
+      "-c",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.derived/runner.swift",
+      "-I",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j32",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+      "-module-cache-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/include/SwiftTestHarnessPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "swift_test_harness",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "SwiftTestHarnessTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "SwiftTestHarnessTests",
+      "-package-name",
+      "swift_test_harness",
+      "-c",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/Tests/SwiftTestHarnessTests/SchemarsExportTests.swift",
+      "-I",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j32",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntime/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinBridges_KotlinStdlib/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/SharedBridge_Schemars/include",
+      "-Xcc",
+      "-fmodule-map-file=/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include/module.modulemap",
+      "-Xcc",
+      "-I",
+      "-Xcc",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupportBridge/include",
+      "-module-cache-path",
+      "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "swift_test_harness",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "ExportedKotlinPackages" : [
+      "KotlinRuntime"
+    ],
+    "KotlinBridges_KotlinStdlib" : [
+
+    ],
+    "KotlinRuntime" : [
+
+    ],
+    "KotlinRuntimeSupport" : [
+      "KotlinRuntime",
+      "KotlinRuntimeSupportBridge"
+    ],
+    "KotlinRuntimeSupportBridge" : [
+
+    ],
+    "KotlinStdlib" : [
+      "KotlinBridges_KotlinStdlib",
+      "KotlinRuntimeSupport",
+      "KotlinRuntimeSupportBridge",
+      "ExportedKotlinPackages",
+      "KotlinRuntime"
+    ],
+    "Schemars" : [
+      "SharedBridge_Schemars",
+      "KotlinStdlib",
+      "KotlinBridges_KotlinStdlib",
+      "KotlinRuntimeSupport",
+      "KotlinRuntimeSupportBridge",
+      "ExportedKotlinPackages",
+      "KotlinRuntime"
+    ],
+    "SharedBridge_Schemars" : [
+
+    ],
+    "SwiftTestHarnessPackageTests" : [
+      "SwiftTestHarnessTests",
+      "Schemars",
+      "SharedBridge_Schemars",
+      "KotlinStdlib",
+      "KotlinBridges_KotlinStdlib",
+      "KotlinRuntimeSupport",
+      "KotlinRuntimeSupportBridge",
+      "ExportedKotlinPackages",
+      "KotlinRuntime"
+    ],
+    "SwiftTestHarnessTests" : [
+      "Schemars",
+      "SharedBridge_Schemars",
+      "KotlinStdlib",
+      "KotlinBridges_KotlinStdlib",
+      "KotlinRuntimeSupport",
+      "KotlinRuntimeSupportBridge",
+      "ExportedKotlinPackages",
+      "KotlinRuntime"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/ExportedKotlinPackages/ExportedKotlinPackages.swift"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/sources"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinRuntimeSupport/KotlinRuntimeSupport.swift"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/sources"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/KotlinStdlib/KotlinStdlib.swift"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/sources"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/build/SPMPackage/macosArm64/Debug/Sources/Schemars/Schemars.swift"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/sources"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/sources"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/ExportedKotlinPackages.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinBridges_KotlinStdlib.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntime.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/KotlinRuntimeSupport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupportBridge.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/KotlinStdlib.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/Schemars.build/Schemars.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SharedBridge_Schemars.build/linkingStub.c.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/SchemarsExportTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.product/Objects.LinkFileList"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/Tests/SwiftTestHarnessTests/SchemarsExportTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessTests.build/sources"
+    },
+    "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}
