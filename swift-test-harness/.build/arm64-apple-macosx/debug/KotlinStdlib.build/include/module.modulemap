@@ -1,3 +1,0 @@
-module KotlinStdlib {
-    header "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinStdlib.build/include/KotlinStdlib-Swift.h"
-}

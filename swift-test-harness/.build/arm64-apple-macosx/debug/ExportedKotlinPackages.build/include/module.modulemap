@@ -1,3 +1,0 @@
-module ExportedKotlinPackages {
-    header "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/ExportedKotlinPackages.build/include/ExportedKotlinPackages-Swift.h"
-}

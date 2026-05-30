@@ -45,3 +45,12 @@ __pycache__/
 # Android SDK
 /.android-sdk/
 local.properties
+
+# Kotlin compiler scratch/error logs
+.kotlin/
+
+# Swift Export test harness build output
+swift-test-harness/.build/
+
+# Local backup files from template re-fits
+*.bak

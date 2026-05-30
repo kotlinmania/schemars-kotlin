@@ -1,3 +1,0 @@
-module SwiftTestHarnessPackageTests {
-    header "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/SwiftTestHarnessPackageTests.build/include/SwiftTestHarnessPackageTests-Swift.h"
-}

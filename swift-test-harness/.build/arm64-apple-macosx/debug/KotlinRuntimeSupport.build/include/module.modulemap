@@ -1,3 +1,0 @@
-module KotlinRuntimeSupport {
-    header "/Volumes/stuff/Projects/kotlinmania/schemars-kotlin/swift-test-harness/.build/arm64-apple-macosx/debug/KotlinRuntimeSupport.build/include/KotlinRuntimeSupport-Swift.h"
-}
