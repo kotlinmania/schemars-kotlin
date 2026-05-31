@@ -628,6 +628,12 @@ tasks.register("hostTests") {
     )
 }
 
+tasks.register("test") {
+    group = "verification"
+    description = "Alias for hostTests."
+    dependsOn("hostTests")
+}
+
 // Skip embedSwiftExportForXcode unless Xcode env is present or task is explicitly requested.
 val xcodeSwiftExportEnvironmentNames =
     listOf(
