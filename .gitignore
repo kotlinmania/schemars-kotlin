@@ -30,6 +30,10 @@ kotlin-js-store/*
 !kotlin-js-store/yarn.lock
 !kotlin-js-store/wasm/
 !kotlin-js-store/wasm/yarn.lock
+!kotlin-js-store/wasm/.yarnrc.yml
+!kotlin-js-store/wasm/package.json
+kotlin-js-store/wasm/.yarn/
+kotlin-js-store/wasm/node_modules/
 tools/ast_distance/ast_distance
 tools/ast_distance/build/
 
