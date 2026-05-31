@@ -15,9 +15,7 @@ jobs:
     # NSURLUbiquitousItemSupportedSyncControlsKey, mach_vm_reclaim_update_kernel_accounting_trap,
     # xpc_session_set_peer_requirement, etc. macos-latest currently resolves to
     # macos-15 (Xcode 16 SDK) and `swift test` link fails with "Undefined symbols
-    # for architecture arm64" on every one of those when the repo's Kotlin code
-    # reaches into Foundation / CoreFoundation / darwin platform APIs. Pin
-    # macos-26 uniformly so the SDK in
+    # for architecture arm64" on every one of those. Pin macos-26 so the SDK in
     # /Applications/Xcode_26.x.app/Contents/Developer/Platforms provides the
     # symbol stubs the cache expects.
     runs-on: macos-26
@@ -69,10 +67,10 @@ jobs:
       #     configured value`.
       #
       # Output lands in `build/swift-test/`:
-      #   * `libProcMacro.a` — the merged static archive containing
+      #   * `libSchemars.a` — the merged static archive containing
       #     every `@ExportedBridge`-annotated function emitted by
       #     `build/SwiftExport/macosArm64/Debug/**/*.kt`.
-      #   * Four `.swiftmodule/` directories: ProcMacro,
+      #   * Four `.swiftmodule/` directories: Schemars,
       #     KotlinRuntimeSupport, ExportedKotlinPackages, KotlinRuntime.
       - name: Build Swift Export package
         env:
@@ -96,7 +94,7 @@ jobs:
         with:
           name: swift-export-artifacts
           path: |
-            build/swift-test/libProcMacro.a
+            build/swift-test/libSchemars.a
             build/swift-test/*.swiftmodule/
             build/SPMPackage/macosArm64/Debug/
           retention-days: 7
