@@ -89,6 +89,7 @@ val requiredAndroidSdkPackageDirs =
     )
 
 fun writeAndroidLocalProperties() {
+    projectAndroidSdkDir.mkdirs()
     val sdkDirPropertyValue = projectAndroidSdkDir.absolutePath.replace("\\", "/")
     layout.projectDirectory
         .file("local.properties")
@@ -197,7 +198,7 @@ fun installProjectAndroidSdk(execOperations: ExecOperations) {
     println("setup-android-sdk: done; SDK at $projectAndroidSdkDir")
 }
 
-writeAndroidLocalProperties()
+installProjectAndroidSdk(serviceOf())
 
 val ensureAndroidSdk by tasks.registering {
     group = "setup"
@@ -627,6 +628,12 @@ tasks.register("hostTests") {
         listOf("jvmTest", "macosArm64Test", "jsNodeTest", "wasmJsNodeTest", "wasmWasiNodeTest", "testAndroidHostTest")
             .mapNotNull { tasks.findByName(it) },
     )
+}
+
+tasks.register("test") {
+    group = "verification"
+    description = "Alias for hostTests."
+    dependsOn("hostTests")
 }
 
 // Skip embedSwiftExportForXcode unless Xcode env is present or task is explicitly requested.
