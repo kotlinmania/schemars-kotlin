@@ -13,13 +13,22 @@ import io.github.kotlinmania.schemars.jsonSchema
  */
 val ArrayStringSchema: JsonSchema = StringSchema
 
-class ArrayVecSchema(val cap: Int, val element: JsonSchema) : JsonSchema {
-    init { require(cap >= 0) { "ArrayVecSchema cap must be >= 0 (was $cap)" } }
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = "Array_up_to_size_${cap}_of_${element.schemaName()}"
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = "array"
-        this["items"] = generator.subschemaFor(element)
-        this["maxItems"] = cap
+class ArrayVecSchema(
+    val cap: Int,
+    val element: JsonSchema,
+) : JsonSchema {
+    init {
+        require(cap >= 0) { "ArrayVecSchema cap must be >= 0 (was $cap)" }
     }
+
+    override fun inlineSchema(): Boolean = true
+
+    override fun schemaName(): String = "Array_up_to_size_${cap}_of_${element.schemaName()}"
+
+    override fun jsonSchema(generator: SchemaGenerator): Schema =
+        jsonSchema {
+            this["type"] = "array"
+            this["items"] = generator.subschemaFor(element)
+            this["maxItems"] = cap
+        }
 }

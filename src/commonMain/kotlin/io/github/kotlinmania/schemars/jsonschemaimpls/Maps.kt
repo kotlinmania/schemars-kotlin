@@ -3,8 +3,8 @@ package io.github.kotlinmania.schemars.jsonschemaimpls
 
 import io.github.kotlinmania.schemars.JsonSchema
 import io.github.kotlinmania.schemars.Schema
-import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.Value
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /**
@@ -16,7 +16,10 @@ import io.github.kotlinmania.schemars.jsonSchema
  * `patternProperties`, string keys with `enum` go to `properties`, integer keys generate
  * `\d+` patterns, anything else falls back to `additionalProperties`.
  */
-class MapSchema(val key: JsonSchema, val value: JsonSchema) : JsonSchema {
+class MapSchema(
+    val key: JsonSchema,
+    val value: JsonSchema,
+) : JsonSchema {
     override fun inlineSchema(): Boolean = true
 
     override fun schemaName(): String =
@@ -40,16 +43,17 @@ class MapSchema(val key: JsonSchema, val value: JsonSchema) : JsonSchema {
         val mapSchema = jsonSchema { this["type"] = "object" }
 
         // Collect "options" — either a single schema or the entries of `anyOf`.
-        val options: MutableList<MutableMap<String, Value>> = run {
-            val anyOf = (keySchema.get("anyOf") as? Value.Array)?.items
-            if (anyOf != null) {
-                val collected = anyOf.mapNotNull { (it as? Value.Object)?.entries }.toMutableList()
-                if (collected.size == anyOf.size) collected else mutableListOf()
-            } else {
-                val obj = keySchema.asObject()
-                if (obj != null) mutableListOf(obj) else mutableListOf()
+        val options: MutableList<MutableMap<String, Value>> =
+            run {
+                val anyOf = (keySchema.get("anyOf") as? Value.Array)?.items
+                if (anyOf != null) {
+                    val collected = anyOf.mapNotNull { (it as? Value.Object)?.entries }.toMutableList()
+                    if (collected.size == anyOf.size) collected else mutableListOf()
+                } else {
+                    val obj = keySchema.asObject()
+                    if (obj != null) mutableListOf(obj) else mutableListOf()
+                }
             }
-        }
         if (options.isEmpty()) {
             return jsonSchema {
                 this["additionalProperties"] = valueSchema
@@ -73,10 +77,12 @@ class MapSchema(val key: JsonSchema, val value: JsonSchema) : JsonSchema {
         val properties: MutableSet<String> = sortedSetOf()
         for (option in options) {
             val keyPattern = (option["pattern"] as? Value.Str)?.value
-            val keyEnum = (option["enum"] as? Value.Array)?.items
-                ?.map { (it as? Value.Str)?.value }
-                ?.takeIf { values -> values.all { it != null } }
-                ?.map { it!! }
+            val keyEnum =
+                (option["enum"] as? Value.Array)
+                    ?.items
+                    ?.map { (it as? Value.Str)?.value }
+                    ?.takeIf { values -> values.all { it != null } }
+                    ?.map { it!! }
             val keyType = (option["type"] as? Value.Str)?.value
             val keyMinimum = (option["minimum"] as? Value.Number)?.asULong()
 

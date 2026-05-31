@@ -1,11 +1,13 @@
 // port-lint: source transform.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.schemars.transform
 
 import io.github.kotlinmania.schemars.MetaSchemas
 import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.Value
-import io.github.kotlinmania.schemars.jsonSchema
 import io.github.kotlinmania.schemars.obj
+import kotlin.native.HiddenFromObjC
 
 /*
 Contains the [Transform] interface, used to modify a constructed schema and optionally its
@@ -36,12 +38,17 @@ interface Transform {
 }
 
 /** Adapt a function into a [Transform]. */
-fun transformOf(block: (Schema) -> Unit): Transform = object : Transform {
-    override fun transform(schema: Schema) = block(schema)
-}
+@HiddenFromObjC
+fun transformOf(block: (Schema) -> Unit): Transform =
+    object : Transform {
+        override fun transform(schema: Schema) = block(schema)
+    }
 
 /** Applies the given [Transform] to all direct subschemas of the [Schema]. */
-fun transformSubschemas(t: Transform, schema: Schema) {
+fun transformSubschemas(
+    t: Transform,
+    schema: Schema,
+) {
     val obj = schema.asObjectMut() ?: return
     // Snapshot keys to allow mutations during iteration without ConcurrentModificationException.
     val keys = obj.keys.toList()
@@ -54,13 +61,20 @@ fun transformSubschemas(t: Transform, schema: Schema) {
         // dropped in draft 2020-12) and `prefixItems` (which was added in draft 2020-12).
         when (key) {
             "not", "if", "then", "else", "contains",
-            "additionalProperties", "propertyNames", "additionalItems" -> {
-                Schema.tryFrom(value).getOrNull()?.let { t.transform(it); writeBack(obj, key, it) }
+            "additionalProperties", "propertyNames", "additionalItems",
+            -> {
+                Schema.tryFrom(value).getOrNull()?.let {
+                    t.transform(it)
+                    writeBack(obj, key, it)
+                }
             }
             "allOf", "anyOf", "oneOf", "prefixItems" -> {
                 (value as? Value.Array)?.items?.let { array ->
                     for (i in array.indices) {
-                        Schema.tryFrom(array[i]).getOrNull()?.let { t.transform(it); array[i] = it.asValue() }
+                        Schema.tryFrom(array[i]).getOrNull()?.let {
+                            t.transform(it)
+                            array[i] = it.asValue()
+                        }
                     }
                 }
             }
@@ -70,12 +84,20 @@ fun transformSubschemas(t: Transform, schema: Schema) {
                 when (value) {
                     is Value.Array -> {
                         for (i in value.items.indices) {
-                            Schema.tryFrom(value.items[i]).getOrNull()
-                                ?.let { t.transform(it); value.items[i] = it.asValue() }
+                            Schema
+                                .tryFrom(value.items[i])
+                                .getOrNull()
+                                ?.let {
+                                    t.transform(it)
+                                    value.items[i] = it.asValue()
+                                }
                         }
                     }
                     else -> {
-                        Schema.tryFrom(value).getOrNull()?.let { t.transform(it); writeBack(obj, key, it) }
+                        Schema.tryFrom(value).getOrNull()?.let {
+                            t.transform(it)
+                            writeBack(obj, key, it)
+                        }
                     }
                 }
             }
@@ -84,7 +106,10 @@ fun transformSubschemas(t: Transform, schema: Schema) {
                     val subKeys = sub.keys.toList()
                     for (k in subKeys) {
                         val v = sub[k] ?: continue
-                        Schema.tryFrom(v).getOrNull()?.let { t.transform(it); sub[k] = it.asValue() }
+                        Schema.tryFrom(v).getOrNull()?.let {
+                            t.transform(it)
+                            sub[k] = it.asValue()
+                        }
                     }
                 }
             }
@@ -92,7 +117,11 @@ fun transformSubschemas(t: Transform, schema: Schema) {
     }
 }
 
-private fun writeBack(obj: MutableMap<String, Value>, key: String, schema: Schema) {
+private fun writeBack(
+    obj: MutableMap<String, Value>,
+    key: String,
+    schema: Schema,
+) {
     obj[key] = schema.asValue()
 }
 
@@ -100,20 +129,31 @@ private fun writeBack(obj: MutableMap<String, Value>, key: String, schema: Schem
  * Similar to [transformSubschemas], but only transforms subschemas that apply to the top-level
  * object, e.g. `oneOf` but not `properties`.
  */
-internal fun transformImmediateSubschemas(t: Transform, schema: Schema) {
+internal fun transformImmediateSubschemas(
+    t: Transform,
+    schema: Schema,
+) {
     val obj = schema.asObjectMut() ?: return
     val keys = obj.keys.toList()
     for (key in keys) {
         val value = obj[key] ?: continue
         when (key) {
             "if", "then", "else" -> {
-                Schema.tryFrom(value).getOrNull()?.let { t.transform(it); obj[key] = it.asValue() }
+                Schema.tryFrom(value).getOrNull()?.let {
+                    t.transform(it)
+                    obj[key] = it.asValue()
+                }
             }
             "allOf", "anyOf", "oneOf" -> {
                 (value as? Value.Array)?.items?.let { array ->
                     for (i in array.indices) {
-                        Schema.tryFrom(array[i]).getOrNull()
-                            ?.let { t.transform(it); array[i] = it.asValue() }
+                        Schema
+                            .tryFrom(array[i])
+                            .getOrNull()
+                            ?.let {
+                                t.transform(it)
+                                array[i] = it.asValue()
+                            }
                     }
                 }
             }
@@ -128,7 +168,9 @@ internal fun transformImmediateSubschemas(t: Transform, schema: Schema) {
  * Its implementation of [Transform] will first apply the inner transform to the "parent" schema,
  * and then its subschemas (and their subschemas, and so on).
  */
-class RecursiveTransform(val inner: Transform) : Transform {
+class RecursiveTransform(
+    val inner: Transform,
+) : Transform {
     override fun transform(schema: Schema) {
         inner.transform(schema)
         transformSubschemas(this, schema)
@@ -335,7 +377,9 @@ class ReplaceUnevaluatedProperties : Transform {
 }
 
 /** Helper for getting property names for all *immediate* subschemas. */
-private class GatherPropertyNames(val names: MutableSet<String> = sortedSetOf()) : Transform {
+private class GatherPropertyNames(
+    val names: MutableSet<String> = sortedSetOf(),
+) : Transform {
     override fun transform(schema: Schema) {
         schema.asObject()?.let { o ->
             (o["properties"] as? Value.Object)?.entries?.keys?.let { names.addAll(it) }
@@ -345,6 +389,7 @@ private class GatherPropertyNames(val names: MutableSet<String> = sortedSetOf())
 }
 
 private fun sortedSetOf(): MutableSet<String> = sortedSetWithDefaultComparator()
+
 private fun sortedSetWithDefaultComparator(): MutableSet<String> {
     // Kotlin Multiplatform common doesn't expose TreeSet — use a LinkedHashSet so ordering is
     // (output ordering is determined by `properties` map iteration).
@@ -381,38 +426,40 @@ class RestrictFormats(
     var allowedFormats: Set<String> = sortedSetOf(),
 ) : Transform {
     override fun transform(schema: Schema) {
-        val impl = RestrictFormatsImpl(
-            inferFromMetaSchema = inferFromMetaSchema,
-            inferredFormats = null,
-            allowedFormats = allowedFormats,
-        )
+        val impl =
+            RestrictFormatsImpl(
+                inferFromMetaSchema = inferFromMetaSchema,
+                inferredFormats = null,
+                allowedFormats = allowedFormats,
+            )
         impl.transform(schema)
     }
 }
 
-internal val DEFINED_FORMATS: Array<String> = arrayOf(
-    // `duration` and `uuid` are defined only in draft 2019-09+
-    "duration",
-    "uuid",
-    // The rest are also defined in draft-07:
-    "date-time",
-    "date",
-    "time",
-    "email",
-    "idn-email",
-    "hostname",
-    "idn-hostname",
-    "ipv4",
-    "ipv6",
-    "uri",
-    "uri-reference",
-    "iri",
-    "iri-reference",
-    "uri-template",
-    "json-pointer",
-    "relative-json-pointer",
-    "regex",
-)
+internal val DEFINED_FORMATS: Array<String> =
+    arrayOf(
+        // `duration` and `uuid` are defined only in draft 2019-09+
+        "duration",
+        "uuid",
+        // The rest are also defined in draft-07:
+        "date-time",
+        "date",
+        "time",
+        "email",
+        "idn-email",
+        "hostname",
+        "idn-hostname",
+        "ipv4",
+        "ipv6",
+        "uri",
+        "uri-reference",
+        "iri",
+        "iri-reference",
+        "uri-template",
+        "json-pointer",
+        "relative-json-pointer",
+        "regex",
+    )
 
 private class RestrictFormatsImpl(
     val inferFromMetaSchema: Boolean,
@@ -425,20 +472,22 @@ private class RestrictFormatsImpl(
 
         if (inferFromMetaSchema && obj.containsKey("\$schema")) {
             val schemaVal = (obj["\$schema"] as? Value.Str)?.value ?: ""
-            inferredFormats = when (schemaVal) {
-                MetaSchemas.DRAFT07 -> DEFINED_FORMATS.drop(2)
-                MetaSchemas.DRAFT2019_09, MetaSchemas.DRAFT2020_12 -> DEFINED_FORMATS.toList()
-                else -> {
-                    // we can't handle an unrecognised meta-schema
-                    return
+            inferredFormats =
+                when (schemaVal) {
+                    MetaSchemas.DRAFT07 -> DEFINED_FORMATS.drop(2)
+                    MetaSchemas.DRAFT2019_09, MetaSchemas.DRAFT2020_12 -> DEFINED_FORMATS.toList()
+                    else -> {
+                        // we can't handle an unrecognised meta-schema
+                        return
+                    }
                 }
-            }
         }
 
         val format = (obj["format"] as? Value.Str)?.value
         if (format != null) {
-            val allowed = allowedFormats.contains(format) ||
-                (inferredFormats?.contains(format) == true)
+            val allowed =
+                allowedFormats.contains(format) ||
+                    (inferredFormats?.contains(format) == true)
             if (!allowed) obj.remove("format")
         }
 

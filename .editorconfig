@@ -1,0 +1,9 @@
+root = true
+
+[*.{kt,kts}]
+# This repo is a 1:1 Rust→Kotlin port (see CLAUDE.md): each Kotlin file maps to
+# one upstream Rust file and carries a `port-lint: source <file>` provenance
+# header, so files are named after their Rust source (Primitives.kt ← primitives.rs),
+# not after their lone top-level declaration. ktlint's filename rule would demand
+# the latter and can't be auto-corrected, so disable it to preserve the mapping.
+ktlint_standard_filename = disabled

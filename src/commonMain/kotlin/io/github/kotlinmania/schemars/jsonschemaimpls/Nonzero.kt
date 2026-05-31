@@ -3,8 +3,8 @@ package io.github.kotlinmania.schemars.jsonschemaimpls
 
 import io.github.kotlinmania.schemars.JsonSchema
 import io.github.kotlinmania.schemars.Schema
-import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.Value
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
 /*
@@ -14,27 +14,41 @@ import io.github.kotlinmania.schemars.jsonSchema
  * unsigned nonzero adds `minimum: 1`.
  */
 
-private fun nonzeroSigned(name: String, primitive: JsonSchema): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun schemaId(): String = "std::num::$name"
-    override fun jsonSchema(generator: SchemaGenerator): Schema {
-        val schema = primitive.jsonSchema(generator)
-        schema.insert("not", Value.Object(linkedMapOf("const" to Value.Number(0))))
-        return schema
-    }
-}
+private fun nonzeroSigned(
+    name: String,
+    primitive: JsonSchema,
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
 
-private fun nonzeroUnsigned(name: String, primitive: JsonSchema): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun schemaId(): String = "std::num::$name"
-    override fun jsonSchema(generator: SchemaGenerator): Schema {
-        val schema = primitive.jsonSchema(generator)
-        schema.insert("minimum", Value.Number(1))
-        return schema
+        override fun schemaName(): String = name
+
+        override fun schemaId(): String = "std::num::$name"
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema {
+            val schema = primitive.jsonSchema(generator)
+            schema.insert("not", Value.Object(linkedMapOf("const" to Value.Number(0))))
+            return schema
+        }
     }
-}
+
+private fun nonzeroUnsigned(
+    name: String,
+    primitive: JsonSchema,
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
+
+        override fun schemaName(): String = name
+
+        override fun schemaId(): String = "std::num::$name"
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema {
+            val schema = primitive.jsonSchema(generator)
+            schema.insert("minimum", Value.Number(1))
+            return schema
+        }
+    }
 
 val NonZeroI8Schema: JsonSchema = nonzeroSigned("NonZeroI8", I8Schema)
 val NonZeroI16Schema: JsonSchema = nonzeroSigned("NonZeroI16", I16Schema)

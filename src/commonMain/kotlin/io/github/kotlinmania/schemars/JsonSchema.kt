@@ -82,8 +82,7 @@ interface JsonSchema {
      */
     fun jsonSchema(generator: SchemaGenerator): Schema
 
-    fun schemarsPrivateNonOptionalJsonSchema(generator: SchemaGenerator): Schema =
-        jsonSchema(generator)
+    fun schemarsPrivateNonOptionalJsonSchema(generator: SchemaGenerator): Schema = jsonSchema(generator)
 
     fun schemarsPrivateIsOption(): Boolean = false
 }

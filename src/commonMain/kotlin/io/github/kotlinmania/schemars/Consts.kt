@@ -3,9 +3,9 @@ package io.github.kotlinmania.schemars
 
 /**
  * Constants associated with JSON Schema generation.
+ *
+ * Known values of the `$schema` property.
  */
-
-/** Known values of the `$schema` property. */
 object MetaSchemas {
     /**
      * The meta-schema for [JSON Schema Draft 7](https://json-schema.org/specification-links#draft-7)

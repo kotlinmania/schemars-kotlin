@@ -23,12 +23,18 @@ fun getTitleAndDescription(doc: String): Pair<String, String> {
     }
 }
 
-private fun strchr(bytes: String, chr: Char): Int? {
+private fun strchr(
+    bytes: String,
+    chr: Char,
+): Int? {
     val i = bytes.indexOf(chr)
     return if (i < 0) null else i
 }
 
-private fun trimStart(bytes: String, chr: Char): String {
+private fun trimStart(
+    bytes: String,
+    chr: Char,
+): String {
     var i = 0
     while (i < bytes.length && bytes[i] == chr) i++
     return bytes.substring(i)
@@ -42,7 +48,8 @@ private fun trimAscii(bytes: String): String {
     return bytes.substring(start, end)
 }
 
-private fun Char.isAsciiWhitespace(): Boolean = when (this) {
-    ' ', '\t', '\n', '', '\r' -> true
-    else -> false
-}
+private fun Char.isAsciiWhitespace(): Boolean =
+    when (this) {
+        ' ', '\t', '\n', '', '\r' -> true
+        else -> false
+    }

@@ -1,4 +1,6 @@
 // port-lint: source generate.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.schemars.generate
 
 import io.github.kotlinmania.schemars.JsonSchema
@@ -14,6 +16,7 @@ import io.github.kotlinmania.schemars.transform.ReplacePrefixItems
 import io.github.kotlinmania.schemars.transform.ReplaceUnevaluatedProperties
 import io.github.kotlinmania.schemars.transform.SetSingleExample
 import io.github.kotlinmania.schemars.transform.Transform
+import kotlin.native.HiddenFromObjC
 
 /*
 JSON Schema generator and settings.
@@ -88,59 +91,66 @@ data class SchemaSettings(
         fun default(): SchemaSettings = draft202012()
 
         /** Creates `SchemaSettings` that conform to JSON Schema Draft 7. */
-        fun draft07(): SchemaSettings = SchemaSettings(
-            definitionsPath = "/definitions",
-            metaSchema = MetaSchemas.DRAFT07,
-            transforms = listOf(
-                ReplaceUnevaluatedProperties(),
-                RemoveRefSiblings(),
-                ReplacePrefixItems(),
-            ),
-            inlineSubschemas = false,
-            contract = Contract.Deserialize,
-            untaggedEnumVariantTitles = false,
-        )
+        fun draft07(): SchemaSettings =
+            SchemaSettings(
+                definitionsPath = "/definitions",
+                metaSchema = MetaSchemas.DRAFT07,
+                transforms =
+                    listOf(
+                        ReplaceUnevaluatedProperties(),
+                        RemoveRefSiblings(),
+                        ReplacePrefixItems(),
+                    ),
+                inlineSubschemas = false,
+                contract = Contract.Deserialize,
+                untaggedEnumVariantTitles = false,
+            )
 
         /** Creates `SchemaSettings` that conform to JSON Schema 2019-09. */
-        fun draft201909(): SchemaSettings = SchemaSettings(
-            definitionsPath = "/\$defs",
-            metaSchema = MetaSchemas.DRAFT2019_09,
-            transforms = mutableListOf(ReplacePrefixItems()),
-            inlineSubschemas = false,
-            contract = Contract.Deserialize,
-            untaggedEnumVariantTitles = false,
-        )
+        fun draft201909(): SchemaSettings =
+            SchemaSettings(
+                definitionsPath = "/\$defs",
+                metaSchema = MetaSchemas.DRAFT2019_09,
+                transforms = mutableListOf(ReplacePrefixItems()),
+                inlineSubschemas = false,
+                contract = Contract.Deserialize,
+                untaggedEnumVariantTitles = false,
+            )
 
         /** Creates `SchemaSettings` that conform to JSON Schema 2020-12. */
-        fun draft202012(): SchemaSettings = SchemaSettings(
-            definitionsPath = "/\$defs",
-            metaSchema = MetaSchemas.DRAFT2020_12,
-            transforms = listOf(),
-            inlineSubschemas = false,
-            contract = Contract.Deserialize,
-            untaggedEnumVariantTitles = false,
-        )
+        fun draft202012(): SchemaSettings =
+            SchemaSettings(
+                definitionsPath = "/\$defs",
+                metaSchema = MetaSchemas.DRAFT2020_12,
+                transforms = listOf(),
+                inlineSubschemas = false,
+                contract = Contract.Deserialize,
+                untaggedEnumVariantTitles = false,
+            )
 
         /** Creates `SchemaSettings` that conform to OpenAPI 3.0. */
-        fun openapi3(): SchemaSettings = SchemaSettings(
-            definitionsPath = "/components/schemas",
-            metaSchema = MetaSchemas.OPENAPI3,
-            transforms = listOf(
-                ReplaceUnevaluatedProperties(),
-                ReplaceBoolSchemas(skipAdditionalProperties = true),
-                AddNullable(),
-                RemoveRefSiblings(),
-                SetSingleExample(),
-                ReplaceConstValue(),
-                ReplacePrefixItems(),
-            ),
-            inlineSubschemas = false,
-            contract = Contract.Deserialize,
-            untaggedEnumVariantTitles = false,
-        )
+        fun openapi3(): SchemaSettings =
+            SchemaSettings(
+                definitionsPath = "/components/schemas",
+                metaSchema = MetaSchemas.OPENAPI3,
+                transforms =
+                    listOf(
+                        ReplaceUnevaluatedProperties(),
+                        ReplaceBoolSchemas(skipAdditionalProperties = true),
+                        AddNullable(),
+                        RemoveRefSiblings(),
+                        SetSingleExample(),
+                        ReplaceConstValue(),
+                        ReplacePrefixItems(),
+                    ),
+                inlineSubschemas = false,
+                contract = Contract.Deserialize,
+                untaggedEnumVariantTitles = false,
+            )
     }
 
     /** Modifies the `SchemaSettings` by calling the given function. */
+    @HiddenFromObjC
     fun with(configureFn: (SchemaSettings) -> Unit): SchemaSettings {
         configureFn(this)
         return this
@@ -177,7 +187,8 @@ data class SchemaSettings(
  */
 enum class Contract {
     Deserialize,
-    Serialize;
+    Serialize,
+    ;
 
     /** Returns true if `this` is the [Deserialize] contract. */
     fun isDeserialize(): Boolean = this == Deserialize
@@ -186,7 +197,10 @@ enum class Contract {
     fun isSerialize(): Boolean = this == Serialize
 }
 
-internal data class SchemaUid(val name: String, val contract: Contract) : Comparable<SchemaUid> {
+internal data class SchemaUid(
+    val name: String,
+    val contract: Contract,
+) : Comparable<SchemaUid> {
     override fun compareTo(other: SchemaUid): Int {
         val n = name.compareTo(other.name)
         return if (n != 0) n else contract.compareTo(other.contract)
@@ -203,6 +217,7 @@ class SchemaGenerator internal constructor(
     private val pendingSchemaIds: MutableSet<SchemaUid> = sortedSetOfSchemaUids()
     private val schemaIdToName: MutableMap<SchemaUid, String> = sortedMapOfSchemaUids()
     private val usedSchemaNames: MutableSet<String> = linkedSetOf()
+
     // It's unlikely that `rootSchemaIdStack` will ever contain more than one item, but it is
     // possible, e.g. if a `jsonSchema()` implementation calls `generator.rootSchemaFor<...>()`
     private val rootSchemaIdStack: MutableList<SchemaUid> = mutableListOf()
@@ -220,11 +235,19 @@ class SchemaGenerator internal constructor(
      * or a `${'$'}ref` schema referencing the type's schema.
      */
     fun subschemaFor(type: JsonSchema): Schema {
-        data class FindRef(val schema: Schema, val nameToBeInserted: String?)
+        data class FindRef(
+            val schema: Schema,
+            val nameToBeInserted: String?,
+        )
 
-        fun findRef(uid: SchemaUid, inlineSchema: Boolean, schemaName: () -> String): FindRef? {
-            val returnRef = !inlineSchema &&
-                (!settings.inlineSubschemas || pendingSchemaIds.contains(uid))
+        fun findRef(
+            uid: SchemaUid,
+            inlineSchema: Boolean,
+            schemaName: () -> String,
+        ): FindRef? {
+            val returnRef =
+                !inlineSchema &&
+                    (!settings.inlineSubschemas || pendingSchemaIds.contains(uid))
 
             if (!returnRef) return null
 
@@ -233,23 +256,24 @@ class SchemaGenerator internal constructor(
             }
 
             val existing = schemaIdToName[uid]
-            val name: String = existing ?: run {
-                val baseName = schemaName()
-                var n = ""
-                if (usedSchemaNames.contains(baseName)) {
-                    var i = 2
-                    while (true) {
-                        n = "$baseName$i"
-                        if (!usedSchemaNames.contains(n)) break
-                        i++
+            val name: String =
+                existing ?: run {
+                    val baseName = schemaName()
+                    var n = ""
+                    if (usedSchemaNames.contains(baseName)) {
+                        var i = 2
+                        while (true) {
+                            n = "$baseName$i"
+                            if (!usedSchemaNames.contains(n)) break
+                            i++
+                        }
+                    } else {
+                        n = baseName
                     }
-                } else {
-                    n = baseName
+                    usedSchemaNames.add(n)
+                    schemaIdToName[uid] = n
+                    n
                 }
-                usedSchemaNames.add(n)
-                schemaIdToName[uid] = n
-                n
-            }
 
             val reference = "#${definitionsPathStripped()}/${encodeRefName(name)}"
             val nameToInsert = if (!definitions.containsKey(name)) name else null
@@ -264,7 +288,11 @@ class SchemaGenerator internal constructor(
         return ref.schema
     }
 
-    private fun insertNewSubschemaFor(type: JsonSchema, name: String, uid: SchemaUid) {
+    private fun insertNewSubschemaFor(
+        type: JsonSchema,
+        name: String,
+        uid: SchemaUid,
+    ) {
         val dummy = Value.Bool(false)
         // insert into definitions BEFORE calling jsonSchema to avoid infinite recursion
         definitions[name] = dummy
@@ -399,14 +427,20 @@ class SchemaGenerator internal constructor(
     /** Returns the contract for the settings on this `SchemaGenerator`. */
     fun contract(): Contract = settings.contract
 
-    private fun jsonSchemaInternal(type: JsonSchema, uid: SchemaUid): Schema {
+    private fun jsonSchemaInternal(
+        type: JsonSchema,
+        uid: SchemaUid,
+    ): Schema {
         val didAdd = pendingSchemaIds.add(uid)
         val schema = type.jsonSchema(this)
         if (didAdd) pendingSchemaIds.remove(uid)
         return schema
     }
 
-    private fun addDefinitions(schemaObject: MutableMap<String, Value>, defs: MutableMap<String, Value>) {
+    private fun addDefinitions(
+        schemaObject: MutableMap<String, Value>,
+        defs: MutableMap<String, Value>,
+    ) {
         if (defs.isEmpty()) return
 
         val pointer = definitionsPathStripped()
@@ -431,8 +465,7 @@ class SchemaGenerator internal constructor(
         return path
     }
 
-    private fun schemaUid(type: JsonSchema): SchemaUid =
-        SchemaUid(type.schemaId(), settings.contract)
+    private fun schemaUid(type: JsonSchema): SchemaUid = SchemaUid(type.schemaId(), settings.contract)
 }
 
 private fun jsonPointerMut(
@@ -446,23 +479,30 @@ private fun jsonPointerMut(
 
     var current: MutableMap<String, Value> = objectIn
     for (rawSegment in rest.split('/')) {
-        val segment = if (rawSegment.contains('~')) {
-            rawSegment.replace("~1", "/").replace("~0", "~")
-        } else rawSegment
+        val segment =
+            if (rawSegment.contains('~')) {
+                rawSegment.replace("~1", "/").replace("~0", "~")
+            } else {
+                rawSegment
+            }
 
-        val next: Value = current[segment] ?: run {
-            if (!createIfMissing) return null
-            val newObj = Value.Object(linkedMapOf())
-            current[segment] = newObj
-            newObj
-        }
+        val next: Value =
+            current[segment] ?: run {
+                if (!createIfMissing) return null
+                val newObj = Value.Object(linkedMapOf())
+                current[segment] = newObj
+                newObj
+            }
         current = (next as? Value.Object)?.entries ?: return null
     }
     return current
 }
 
 private object SchemaForValue {
-    fun of(value: Value, includeTitle: Boolean): Schema {
+    fun of(
+        value: Value,
+        includeTitle: Boolean,
+    ): Schema {
         val schema = describe(value)
         if (includeTitle) {
             schema.insert("title", Value.Str(titleFor(value)))
@@ -470,36 +510,46 @@ private object SchemaForValue {
         return schema
     }
 
-    private fun describe(value: Value): Schema = when (value) {
-        is Value.Null -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("null")))).getOrThrow()
-        is Value.Bool -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("boolean")))).getOrThrow()
-        is Value.Number -> Schema.tryFrom(
-            Value.Object(linkedMapOf("type" to Value.Str(if (value.value is Double || value.value is Float) "number" else "integer"))),
-        ).getOrThrow()
-        is Value.Str -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("string")))).getOrThrow()
-        is Value.Array -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("array")))).getOrThrow()
-        is Value.Object -> {
-            val props = linkedMapOf<String, Value>()
-            for ((k, v) in value.entries) {
-                props[k] = describe(v).asValue()
+    private fun describe(value: Value): Schema =
+        when (value) {
+            is Value.Null -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("null")))).getOrThrow()
+            is Value.Bool -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("boolean")))).getOrThrow()
+            is Value.Number ->
+                Schema
+                    .tryFrom(
+                        Value.Object(
+                            linkedMapOf(
+                                "type" to Value.Str(if (value.value is Double || value.value is Float) "number" else "integer"),
+                            ),
+                        ),
+                    ).getOrThrow()
+            is Value.Str -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("string")))).getOrThrow()
+            is Value.Array -> Schema.tryFrom(Value.Object(linkedMapOf("type" to Value.Str("array")))).getOrThrow()
+            is Value.Object -> {
+                val props = linkedMapOf<String, Value>()
+                for ((k, v) in value.entries) {
+                    props[k] = describe(v).asValue()
+                }
+                val schemaMap =
+                    linkedMapOf<String, Value>(
+                        "type" to Value.Str("object"),
+                        "properties" to Value.Object(props),
+                    )
+                Schema.tryFrom(Value.Object(schemaMap)).getOrThrow()
             }
-            val schemaMap = linkedMapOf<String, Value>(
-                "type" to Value.Str("object"),
-                "properties" to Value.Object(props),
-            )
-            Schema.tryFrom(Value.Object(schemaMap)).getOrThrow()
         }
-    }
 
-    private fun titleFor(value: Value): String = when (value) {
-        is Value.Null -> "Null"
-        is Value.Bool -> "Boolean"
-        is Value.Number -> "Number"
-        is Value.Str -> "String"
-        is Value.Array -> "Array"
-        is Value.Object -> "Object"
-    }
+    private fun titleFor(value: Value): String =
+        when (value) {
+            is Value.Null -> "Null"
+            is Value.Bool -> "Boolean"
+            is Value.Number -> "Number"
+            is Value.Str -> "String"
+            is Value.Array -> "Array"
+            is Value.Object -> "Object"
+        }
 }
 
 private fun sortedSetOfSchemaUids(): MutableSet<SchemaUid> = mutableSetOf()
+
 private fun sortedMapOfSchemaUids(): MutableMap<SchemaUid, String> = mutableMapOf()

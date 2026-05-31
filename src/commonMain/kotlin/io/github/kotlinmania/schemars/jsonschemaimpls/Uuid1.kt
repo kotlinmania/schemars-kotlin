@@ -8,10 +8,14 @@ import io.github.kotlinmania.schemars.jsonSchema
 
 object UuidSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
+
     override fun schemaName(): String = "Uuid"
+
     override fun schemaId(): String = "uuid::Uuid"
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = "string"
-        this["format"] = "uuid"
-    }
+
+    override fun jsonSchema(generator: SchemaGenerator): Schema =
+        jsonSchema {
+            this["type"] = "string"
+            this["format"] = "uuid"
+        }
 }

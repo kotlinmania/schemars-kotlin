@@ -6,22 +6,37 @@ import io.github.kotlinmania.schemars.Schema
 import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 
-private fun simple(name: String, instanceType: String): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = instanceType
-    }
-}
+private fun simple(
+    name: String,
+    instanceType: String,
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
 
-private fun simpleFormat(name: String, instanceType: String, format: String): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = instanceType
-        this["format"] = format
+        override fun schemaName(): String = name
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema =
+            jsonSchema {
+                this["type"] = instanceType
+            }
     }
-}
+
+private fun simpleFormat(
+    name: String,
+    instanceType: String,
+    format: String,
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
+
+        override fun schemaName(): String = name
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema =
+            jsonSchema {
+                this["type"] = instanceType
+                this["format"] = format
+            }
+    }
 
 private fun ranged(
     name: String,
@@ -29,42 +44,58 @@ private fun ranged(
     format: String,
     min: Long,
     max: Long,
-): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = instanceType
-        this["format"] = format
-        this["minimum"] = min
-        this["maximum"] = max
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
+
+        override fun schemaName(): String = name
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema =
+            jsonSchema {
+                this["type"] = instanceType
+                this["format"] = format
+                this["minimum"] = min
+                this["maximum"] = max
+            }
     }
-}
 
 private fun rangedUnsigned(
     name: String,
     instanceType: String,
     format: String,
     max: ULong,
-): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = instanceType
-        this["format"] = format
-        this["minimum"] = 0
-        this["maximum"] = max.toLong()
-    }
-}
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
 
-private fun unsigned(name: String, instanceType: String, format: String): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = instanceType
-        this["format"] = format
-        this["minimum"] = 0
+        override fun schemaName(): String = name
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema =
+            jsonSchema {
+                this["type"] = instanceType
+                this["format"] = format
+                this["minimum"] = 0
+                this["maximum"] = max.toLong()
+            }
     }
-}
+
+private fun unsigned(
+    name: String,
+    instanceType: String,
+    format: String,
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
+
+        override fun schemaName(): String = name
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema =
+            jsonSchema {
+                this["type"] = instanceType
+                this["format"] = format
+                this["minimum"] = 0
+            }
+    }
 
 val StrSchema: JsonSchema = simple("string", "string")
 val StringSchema: JsonSchema = simple("string", "string")
@@ -88,13 +119,17 @@ val UsizeSchema: JsonSchema = unsigned("uint", "integer", "uint")
 
 object CharSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
+
     override fun schemaName(): String = "Character"
+
     override fun schemaId(): String = "char"
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = "string"
-        this["minLength"] = 1
-        this["maxLength"] = 1
-    }
+
+    override fun jsonSchema(generator: SchemaGenerator): Schema =
+        jsonSchema {
+            this["type"] = "string"
+            this["minLength"] = 1
+            this["maxLength"] = 1
+        }
 }
 
 val PathSchema: JsonSchema = simple("string", "string")

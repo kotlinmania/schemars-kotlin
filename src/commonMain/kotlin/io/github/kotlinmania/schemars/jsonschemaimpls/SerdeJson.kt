@@ -8,7 +8,9 @@ import io.github.kotlinmania.schemars.jsonSchema
 
 object ValueSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
+
     override fun schemaName(): String = "AnyValue"
+
     override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema(true)
 }
 
@@ -20,10 +22,13 @@ val JsonMapSchema: JsonSchema = MapSchema(StringSchema, ValueSchema)
 
 object JsonNumberSchema : JsonSchema {
     override fun inlineSchema(): Boolean = true
+
     override fun schemaName(): String = "Number"
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = "number"
-    }
+
+    override fun jsonSchema(generator: SchemaGenerator): Schema =
+        jsonSchema {
+            this["type"] = "number"
+        }
 }
 
 val RawValueSchema: JsonSchema = ValueSchema
