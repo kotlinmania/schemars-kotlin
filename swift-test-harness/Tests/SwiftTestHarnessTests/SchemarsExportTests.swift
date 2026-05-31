@@ -1,5 +1,8 @@
 import XCTest
 import Schemars
+import ExportedKotlinPackages
+
+typealias SchemaSettings = ExportedKotlinPackages.io.github.kotlinmania.schemars.generate.SchemaSettings
 
 // Smoke test for the Kotlin → Swift Export → SPM → swift test pipeline.
 //
@@ -17,7 +20,7 @@ import Schemars
 //      `__root____*` and `KotlinError`-related symbol the Swift modules
 //      reference. If the archive were missing or empty, this test
 //      executable would fail to link with "undefined symbols for
-//      architecture arm64.
+//      architecture arm64".
 //
 //   3. The Kotlin `swiftExport { moduleName = "Schemars" }` and
 //      `flattenPackage = "io.github.kotlinmania.schemars"` configuration in
@@ -31,5 +34,27 @@ import Schemars
 final class SchemarsExportTests: XCTestCase {
     func testSwiftModuleLoads() throws {
         XCTAssertTrue(true, "Schemars swift module imported cleanly")
+    }
+
+    func testSchemaFromBool() throws {
+        // Test that companion functions bridge as `.Companion.shared`
+        let schemaTrue = Schema.Companion.shared.from(b: true)
+        XCTAssertEqual(schemaTrue.asBool(), true)
+        
+        let schemaFalse = Schema.Companion.shared.from(b: false)
+        XCTAssertEqual(schemaFalse.asBool(), false)
+    }
+
+    func testSchemaDefault() throws {
+        let schema = Schema.Companion.shared.default()
+        XCTAssertNil(schema.asBool(), "Default schema is an object, so asBool() should be nil")
+    }
+
+    func testSchemaSettings() throws {
+        // Test data class properties
+        let settings = SchemaSettings.Companion.shared.draft07()
+        XCTAssertEqual(settings.inlineSubschemas, false)
+        XCTAssertEqual(settings.untaggedEnumVariantTitles, false)
+        XCTAssertEqual(settings.definitionsPath, "/definitions")
     }
 }
