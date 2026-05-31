@@ -11,15 +11,23 @@ import io.github.kotlinmania.schemars.jsonSchema
  * jiff's date/time types. Identical pattern to `chrono04::formattedString`.
  */
 
-private fun formattedString(name: String, format: String): JsonSchema = object : JsonSchema {
-    override fun inlineSchema(): Boolean = true
-    override fun schemaName(): String = name
-    override fun schemaId(): String = "jiff::$name"
-    override fun jsonSchema(generator: SchemaGenerator): Schema = jsonSchema {
-        this["type"] = "string"
-        this["format"] = format
+private fun formattedString(
+    name: String,
+    format: String,
+): JsonSchema =
+    object : JsonSchema {
+        override fun inlineSchema(): Boolean = true
+
+        override fun schemaName(): String = name
+
+        override fun schemaId(): String = "jiff::$name"
+
+        override fun jsonSchema(generator: SchemaGenerator): Schema =
+            jsonSchema {
+                this["type"] = "string"
+                this["format"] = format
+            }
     }
-}
 
 val SignedDurationSchema: JsonSchema = formattedString("SignedDuration", "duration")
 val SpanSchema: JsonSchema = formattedString("Span", "duration")

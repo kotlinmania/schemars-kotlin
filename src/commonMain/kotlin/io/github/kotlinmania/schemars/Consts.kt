@@ -1,7 +1,7 @@
 // port-lint: source src/consts.rs
 package io.github.kotlinmania.schemars
 
-/**
+/*
  * Constants associated with JSON Schema generation.
  */
 

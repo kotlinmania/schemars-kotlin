@@ -3,8 +3,8 @@ package io.github.kotlinmania.schemars.private
 
 import io.github.kotlinmania.schemars.JsonSchema
 import io.github.kotlinmania.schemars.Schema
-import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.Value
+import io.github.kotlinmania.schemars.generate.SchemaGenerator
 import io.github.kotlinmania.schemars.jsonSchema
 import io.github.kotlinmania.schemars.jsonschemaimpls.UnitSchema
 import io.github.kotlinmania.schemars.transform.Transform
@@ -60,12 +60,13 @@ fun jsonSchemaForInternallyTaggedEnumNewtypeVariant(
     val transform = AllowUnknownProperties()
     transformImmediateSubschemas(transform, schema)
 
-    val inline = type.inlineSchema() ||
-        generator.settings().inlineSubschemas ||
-        schema.get("type")?.asStr() == "null" ||
-        schema.get("additionalProperties")?.asBool() == false ||
-        schema.get("unevaluatedProperties")?.asBool() == false ||
-        transform.didModify
+    val inline =
+        type.inlineSchema() ||
+            generator.settings().inlineSubschemas ||
+            schema.get("type")?.asStr() == "null" ||
+            schema.get("additionalProperties")?.asBool() == false ||
+            schema.get("unevaluatedProperties")?.asBool() == false ||
+            transform.didModify
 
     if (inline) {
         return schema
@@ -108,7 +109,10 @@ fun jsonSchemaForFlatten(
     }
 
     /** Non-generic inner function to reduce monomorphization overhead. */
-    fun inner(schema: Schema, isOptional: Boolean): Schema {
+    fun inner(
+        schema: Schema,
+        isOptional: Boolean,
+    ): Schema {
         // Special handling for externally-tagged enums with unit variants.
         // Unit variants are normally serialized as strings, but when flattened, are serialized
         // as objects like `{ "VariantName": null }`
@@ -123,13 +127,15 @@ fun jsonSchemaForFlatten(
                         Value.Object(
                             linkedMapOf(
                                 "type" to Value.Str("object"),
-                                "properties" to Value.Object(
-                                    linkedMapOf(
-                                        name to Value.Object(
-                                            linkedMapOf("type" to Value.Str("null")),
+                                "properties" to
+                                    Value.Object(
+                                        linkedMapOf(
+                                            name to
+                                                Value.Object(
+                                                    linkedMapOf("type" to Value.Str("null")),
+                                                ),
                                         ),
                                     ),
-                                ),
                                 "required" to Value.Array(mutableListOf(Value.Str(name))),
                             ),
                         ),
@@ -149,10 +155,11 @@ fun jsonSchemaForFlatten(
                 flatten(
                     schema,
                     jsonSchema {
-                        "anyOf" to listOf(
-                            mapOf("oneOf" to oneOf),
-                            mapOf<String, Any?>(),
-                        )
+                        "anyOf" to
+                            listOf(
+                                mapOf("oneOf" to oneOf),
+                                mapOf<String, Any?>(),
+                            )
                     },
                 )
             }
@@ -180,7 +187,9 @@ fun jsonSchemaForFlatten(
     )
 }
 
-internal class AllowUnknownProperties(var didModify: Boolean = false) : Transform {
+internal class AllowUnknownProperties(
+    var didModify: Boolean = false,
+) : Transform {
     override fun transform(schema: Schema) {
         if (schema.get("additionalProperties")?.asBool() == false) {
             schema.remove("additionalProperties")
@@ -194,27 +203,36 @@ internal class AllowUnknownProperties(var didModify: Boolean = false) : Transfor
     }
 }
 
-internal class MaybeSerializeWrapper(val value: Value?) {
+internal class MaybeSerializeWrapper(
+    val value: Value?,
+) {
     internal fun maybeToValue(): Value? = value
 }
 
 /** Create a schema for a unit enum variant. */
-fun newUnitEnumVariant(variant: String): Schema = jsonSchema {
-    this["type"] = "string"
-    this["const"] = variant
-}
+fun newUnitEnumVariant(variant: String): Schema =
+    jsonSchema {
+        this["type"] = "string"
+        this["const"] = variant
+    }
 
-class MaybeJsonSchemaWrapper(val schemaId: String?) {
+class MaybeJsonSchemaWrapper(
+    val schemaId: String?,
+) {
     fun maybeSchemaId(): String = schemaId.orEmpty()
 }
 
 /** Create a schema for an externally tagged enum variant. */
-fun newExternallyTaggedEnumVariant(variant: String, subSchema: Schema): Schema = jsonSchema {
-    this["type"] = "object"
-    this["properties"] = mapOf(variant to subSchema)
-    this["required"] = listOf(variant)
-    this["additionalProperties"] = false
-}
+fun newExternallyTaggedEnumVariant(
+    variant: String,
+    subSchema: Schema,
+): Schema =
+    jsonSchema {
+        this["type"] = "object"
+        this["properties"] = mapOf(variant to subSchema)
+        this["required"] = listOf(variant)
+        this["additionalProperties"] = false
+    }
 
 /** Update a schema for an internally tagged enum variant. */
 fun applyInternalEnumVariantTag(
@@ -230,12 +248,13 @@ fun applyInternalEnumVariantTag(
 
     val properties = obj.getOrPut("properties") { Value.Object(linkedMapOf()) }
     if (properties is Value.Object) {
-        properties.entries[tagName] = Value.Object(
-            linkedMapOf(
-                "type" to Value.Str("string"),
-                "const" to Value.Str(variant),
-            ),
-        )
+        properties.entries[tagName] =
+            Value.Object(
+                linkedMapOf(
+                    "type" to Value.Str("string"),
+                    "const" to Value.Str(variant),
+                ),
+            )
     }
 
     val required = obj.getOrPut("required") { Value.Array(mutableListOf()) }
@@ -270,7 +289,11 @@ fun insertObjectProperty(
     }
 }
 
-fun insertMetadataPropertyIfNonempty(schema: Schema, key: String, value: String) {
+fun insertMetadataPropertyIfNonempty(
+    schema: Schema,
+    key: String,
+    value: String,
+) {
     if (value.isNotEmpty()) {
         schema.insert(key, Value.Str(value))
     }
@@ -289,28 +312,45 @@ internal fun insertValidationProperty(
     }
 }
 
-private fun schemaHasType(schema: Schema, ty: String): Boolean {
-    return when (val t = schema.get("type")) {
+private fun schemaHasType(
+    schema: Schema,
+    ty: String,
+): Boolean =
+    when (val t = schema.get("type")) {
         is Value.Array -> t.items.any { it.asStr() == ty }
         is Value.Str -> t.value == ty
         else -> false
     }
-}
 
-fun mustContain(schema: Schema, substring: String) {
-    val escaped = io.github.kotlinmania.schemars.private.escape(substring)
+fun mustContain(
+    schema: Schema,
+    substring: String,
+) {
+    val escaped =
+        io.github.kotlinmania.schemars.private
+            .escape(substring)
     insertValidationProperty(schema, "string", "pattern", Value.Str(escaped))
 }
 
-fun applyInnerValidation(schema: Schema, f: (Schema) -> Unit) {
+internal fun applyInnerValidation(
+    schema: Schema,
+    f: (Schema) -> Unit,
+) {
     val inner = schema.getMut("items") ?: return
     val sub = Schema.tryFrom(inner).getOrNull() ?: return
     f(sub)
     schema.asObjectMut()?.set("items", sub.asValue())
 }
 
-fun flatten(schema: Schema, other: Schema) {
-    fun flattenProperty(obj1: MutableMap<String, Value>, key: String, value2: Value) {
+fun flatten(
+    schema: Schema,
+    other: Schema,
+) {
+    fun flattenProperty(
+        obj1: MutableMap<String, Value>,
+        key: String,
+        value2: Value,
+    ) {
         if (key !in obj1) {
             obj1[key] = value2
             return
@@ -353,11 +393,12 @@ fun flatten(schema: Schema, other: Schema) {
                     !obj.containsKey("additionalProperties") &&
                     !obj.containsKey("unevaluatedProperties")
                 ) {
-                    val key = if (containsImmediateSubschema(obj)) {
-                        "unevaluatedProperties"
-                    } else {
-                        "additionalProperties"
-                    }
+                    val key =
+                        if (containsImmediateSubschema(obj)) {
+                            "unevaluatedProperties"
+                        } else {
+                            "additionalProperties"
+                        }
                     obj[key] = Value.Bool(true)
                 }
             }
@@ -393,7 +434,10 @@ private fun normaliseAdditionalUnevaluatedProperties(
 private fun containsImmediateSubschema(schemaObj: Map<String, Value>): Boolean =
     listOf("if", "allOf", "anyOf", "oneOf", "\$ref").any { schemaObj.containsKey(it) }
 
-internal fun allowNull(generator: SchemaGenerator, schema: Schema) {
+internal fun allowNull(
+    generator: SchemaGenerator,
+    schema: Schema,
+) {
     fun isNullSchema(value: Value): Boolean {
         val s = Schema.tryFrom(value).getOrNull() ?: return false
         return when (val t = s.get("type")) {
@@ -416,9 +460,10 @@ internal fun allowNull(generator: SchemaGenerator, schema: Schema) {
             if (containsImmediateSubschema(obj)) {
                 val current = Value.Object(linkedMapOf<String, Value>().apply { putAll(obj) })
                 val unitSchema = UnitSchema.jsonSchema(generator)
-                val newSchema = jsonSchema {
-                    "anyOf" to listOf(current, unitSchema)
-                }
+                val newSchema =
+                    jsonSchema {
+                        "anyOf" to listOf(current, unitSchema)
+                    }
                 obj.clear()
                 newSchema.asObject()?.let { obj.putAll(it) }
                 // No need to check `type`/`const`/`enum` because they're trivially not present
@@ -435,9 +480,10 @@ internal fun allowNull(generator: SchemaGenerator, schema: Schema) {
                 }
                 is Value.Str -> {
                     if (instanceType.value != "null") {
-                        obj["type"] = Value.Array(
-                            mutableListOf(Value.Str(instanceType.value), Value.Str("null")),
-                        )
+                        obj["type"] =
+                            Value.Array(
+                                mutableListOf(Value.Str(instanceType.value), Value.Str("null")),
+                            )
                     }
                 }
                 else -> {}

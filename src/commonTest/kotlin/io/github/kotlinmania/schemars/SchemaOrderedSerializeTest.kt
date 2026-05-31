@@ -9,15 +9,16 @@ import kotlin.test.assertTrue
 class SchemaOrderedSerializeTest {
     @Test
     fun orderedKeywordsLeadAndTrail() {
-        val schema = jsonSchema {
-            this["\$defs"] = mapOf("Foo" to true)
-            this["additionalProperties"] = false
-            this["title"] = "A title"
-            this["\$schema"] = "https://json-schema.org/draft/2020-12/schema"
-            this["description"] = "An object"
-            this["type"] = "object"
-            this["\$id"] = "https://example.test/foo"
-        }
+        val schema =
+            jsonSchema {
+                this["\$defs"] = mapOf("Foo" to true)
+                this["additionalProperties"] = false
+                this["title"] = "A title"
+                this["\$schema"] = "https://json-schema.org/draft/2020-12/schema"
+                this["description"] = "An object"
+                this["type"] = "object"
+                this["\$id"] = "https://example.test/foo"
+            }
 
         val obj = (schema.serialize() as Value.Object).entries
         assertEquals(
@@ -28,12 +29,13 @@ class SchemaOrderedSerializeTest {
 
     @Test
     fun orderedKeywordsPreservesInsertionForCustomKeys() {
-        val schema = jsonSchema {
-            this["type"] = "object"
-            this["zebra"] = "z"
-            this["alpha"] = "a"
-            this["middle"] = "m"
-        }
+        val schema =
+            jsonSchema {
+                this["type"] = "object"
+                this["zebra"] = "z"
+                this["alpha"] = "a"
+                this["middle"] = "m"
+            }
 
         val obj = (schema.serialize() as Value.Object).entries
         assertEquals(listOf("type", "zebra", "alpha", "middle"), obj.keys.toList())
@@ -41,11 +43,12 @@ class SchemaOrderedSerializeTest {
 
     @Test
     fun examplesAndDefaultArePassedThroughUnchanged() {
-        val schema = jsonSchema {
-            this["type"] = "object"
-            this["examples"] = listOf(linkedMapOf("description" to "a", "title" to "b"))
-            this["default"] = linkedMapOf("title" to "c", "type" to "object")
-        }
+        val schema =
+            jsonSchema {
+                this["type"] = "object"
+                this["examples"] = listOf(linkedMapOf("description" to "a", "title" to "b"))
+                this["default"] = linkedMapOf("title" to "c", "type" to "object")
+            }
 
         val out = schema.serialize() as Value.Object
         val examples = (out.entries["examples"] as Value.Array).items.first() as Value.Object
@@ -59,10 +62,11 @@ class SchemaOrderedSerializeTest {
 
     @Test
     fun customXPrefixedKeysAreNotReordered() {
-        val schema = jsonSchema {
-            this["type"] = "object"
-            this["x-custom"] = linkedMapOf("description" to "a", "title" to "b")
-        }
+        val schema =
+            jsonSchema {
+                this["type"] = "object"
+                this["x-custom"] = linkedMapOf("description" to "a", "title" to "b")
+            }
 
         val out = schema.serialize() as Value.Object
         val custom = out.entries["x-custom"] as Value.Object
@@ -71,19 +75,23 @@ class SchemaOrderedSerializeTest {
 
     @Test
     fun propertiesObjectKeepsInsertionOrderButReordersSubschemas() {
-        val schema = jsonSchema {
-            this["type"] = "object"
-            this["properties"] = linkedMapOf(
-                "zebra" to linkedMapOf(
-                    "description" to "z",
-                    "type" to "string",
-                ),
-                "alpha" to linkedMapOf(
-                    "description" to "a",
-                    "type" to "number",
-                ),
-            )
-        }
+        val schema =
+            jsonSchema {
+                this["type"] = "object"
+                this["properties"] =
+                    linkedMapOf(
+                        "zebra" to
+                            linkedMapOf(
+                                "description" to "z",
+                                "type" to "string",
+                            ),
+                        "alpha" to
+                            linkedMapOf(
+                                "description" to "a",
+                                "type" to "number",
+                            ),
+                    )
+            }
 
         val out = schema.serialize() as Value.Object
         val props = out.entries["properties"] as Value.Object
@@ -97,13 +105,15 @@ class SchemaOrderedSerializeTest {
 
     @Test
     fun defsObjectKeepsInsertionOrderButReordersSubschemas() {
-        val schema = jsonSchema {
-            this["\$defs"] = linkedMapOf(
-                "Foo" to linkedMapOf("description" to "f", "type" to "object"),
-                "Bar" to linkedMapOf("description" to "b", "type" to "string"),
-            )
-            this["type"] = "object"
-        }
+        val schema =
+            jsonSchema {
+                this["\$defs"] =
+                    linkedMapOf(
+                        "Foo" to linkedMapOf("description" to "f", "type" to "object"),
+                        "Bar" to linkedMapOf("description" to "b", "type" to "string"),
+                    )
+                this["type"] = "object"
+            }
 
         val out = schema.serialize() as Value.Object
         // `$defs` is in ORDERED_KEYWORDS_END so it comes after `type`.
@@ -116,13 +126,15 @@ class SchemaOrderedSerializeTest {
 
     @Test
     fun nestedSubschemasInArrayAreReordered() {
-        val schema = jsonSchema {
-            this["type"] = "object"
-            this["anyOf"] = listOf(
-                linkedMapOf("description" to "first", "type" to "string"),
-                linkedMapOf("description" to "second", "type" to "number"),
-            )
-        }
+        val schema =
+            jsonSchema {
+                this["type"] = "object"
+                this["anyOf"] =
+                    listOf(
+                        linkedMapOf("description" to "first", "type" to "string"),
+                        linkedMapOf("description" to "second", "type" to "number"),
+                    )
+            }
 
         val out = schema.serialize() as Value.Object
         val anyOf = (out.entries["anyOf"] as Value.Array).items

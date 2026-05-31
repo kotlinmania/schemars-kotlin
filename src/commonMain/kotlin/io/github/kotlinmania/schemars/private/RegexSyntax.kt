@@ -10,7 +10,10 @@ fun escape(text: String): String {
     return quoted.toString()
 }
 
-private fun escapeInto(text: String, buf: StringBuilder) {
+private fun escapeInto(
+    text: String,
+    buf: StringBuilder,
+) {
     buf.ensureCapacity(buf.length + text.length)
     for (c in text) {
         if (isMetaCharacter(c)) {
@@ -20,8 +23,10 @@ private fun escapeInto(text: String, buf: StringBuilder) {
     }
 }
 
-private fun isMetaCharacter(c: Char): Boolean = when (c) {
-    '\\', '.', '+', '*', '?', '(', ')', '|', '[', ']', '{', '}', '^', '$',
-    '#', '&', '-', '~' -> true
-    else -> false
-}
+private fun isMetaCharacter(c: Char): Boolean =
+    when (c) {
+        '\\', '.', '+', '*', '?', '(', ')', '|', '[', ']', '{', '}', '^', '$',
+        '#', '&', '-', '~',
+        -> true
+        else -> false
+    }

@@ -11,14 +11,12 @@ import io.github.kotlinmania.schemars.generate.SchemaGenerator
  *
  * The type must implement [JsonSchema].
  */
-fun schemaFor(type: JsonSchema): Schema =
-    SchemaGenerator.default().intoRootSchemaFor(type)
+fun schemaFor(type: JsonSchema): Schema = SchemaGenerator.default().intoRootSchemaFor(type)
 
 /**
  * Generates a [Schema] for the given example value using default settings.
  */
-fun schemaForValue(value: Any?): Schema =
-    SchemaGenerator.default().intoRootSchemaForValue(Value.of(value))
+fun schemaForValue(value: Any?): Schema = SchemaGenerator.default().intoRootSchemaForValue(Value.of(value))
 
 /**
  * Construct a [Schema] from a JSON boolean literal (`true` or `false`).
@@ -28,18 +26,21 @@ fun jsonSchema(value: Boolean): Schema = Schema.from(value)
 /**
  * Construct a [Schema] from a JSON object literal expressed as a builder block.
  */
-fun jsonSchema(block: JsonObjectBuilder.() -> Unit): Schema {
+internal fun jsonSchema(block: JsonObjectBuilder.() -> Unit): Schema {
     val builder = JsonObjectBuilder()
     builder.block()
     return Schema.from(builder.entries)
 }
 
 /** Builder for object-shaped JSON literals. */
-class JsonObjectBuilder internal constructor() {
+internal class JsonObjectBuilder internal constructor() {
     internal val entries: MutableMap<String, Value> = linkedMapOf()
 
     /** Add an entry. Right-hand side is coerced via [Value.of]. */
-    operator fun set(key: String, value: Any?) {
+    operator fun set(
+        key: String,
+        value: Any?,
+    ) {
         entries[key] = Value.of(value)
     }
 }

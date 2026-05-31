@@ -32,3 +32,5 @@ package io.github.kotlinmania.schemars
 //   /Volumes/stuff/Projects/kotlinmania/schemars-kotlin/src/commonMain/kotlin/io/github/kotlinmania/schemars/jsonschemaimpls/Url2.kt
 //   /Volumes/stuff/Projects/kotlinmania/schemars-kotlin/src/commonMain/kotlin/io/github/kotlinmania/schemars/jsonschemaimpls/Uuid1.kt
 //   /Volumes/stuff/Projects/kotlinmania/schemars-kotlin/src/commonMain/kotlin/io/github/kotlinmania/schemars/private/Mod.kt
+
+internal object SchemaGeneratorLib

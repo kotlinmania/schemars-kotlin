@@ -1,13 +1,12 @@
 // port-lint: source encoding.rs
 package io.github.kotlinmania.schemars
 
-private fun Char.isHexDigit(): Boolean =
-    this in '0'..'9' || this in 'a'..'f' || this in 'A'..'F'
+private fun Char.isHexDigit(): Boolean = this in '0'..'9' || this in 'a'..'f' || this in 'A'..'F'
 
 /** Encodes a string for insertion into a JSON Pointer in URI fragment representation. */
 fun encodeRefName(name: String): String {
-    fun needsEncoding(byte: Int): Boolean {
-        return when (byte) {
+    fun needsEncoding(byte: Int): Boolean =
+        when (byte) {
             // `~` and `/` need encoding for JSON Pointer
             // See https://datatracker.ietf.org/doc/html/rfc6901#section-3
             '~'.code, '/'.code -> true
@@ -21,7 +20,6 @@ fun encodeRefName(name: String): String {
             // Everything else needs percent-encoding
             else -> true
         }
-    }
 
     val bytes = name.encodeToByteArray()
     val unsignedBytes = IntArray(bytes.size) { bytes[it].toInt() and 0xFF }
@@ -59,13 +57,15 @@ fun percentDecode(s: String): String? {
     for (b in first.encodeToByteArray()) buf.add(b)
 
     for (segment in segments.drop(1)) {
-        val decodedByte: Int? = if (segment.length >= 2 &&
-            segment[0].isHexDigit() && segment[1].isHexDigit()
-        ) {
-            segment.substring(0, 2).toInt(16)
-        } else {
-            null
-        }
+        val decodedByte: Int? =
+            if (segment.length >= 2 &&
+                segment[0].isHexDigit() &&
+                segment[1].isHexDigit()
+            ) {
+                segment.substring(0, 2).toInt(16)
+            } else {
+                null
+            }
         if (decodedByte != null) {
             buf.add(decodedByte.toByte())
             for (b in segment.substring(2).encodeToByteArray()) buf.add(b)

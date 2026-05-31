@@ -11,15 +11,21 @@ import io.github.kotlinmania.schemars.JsonSchema
  */
 
 /** `IndexMap<K, V>` schema, identical to the ordered-map schema. */
-class IndexMapSchema<K, V>(key: JsonSchema, value: JsonSchema) : JsonSchema by MapSchema(key, value)
+class IndexMapSchema(
+    key: JsonSchema,
+    value: JsonSchema,
+) : JsonSchema by MapSchema(key, value)
 
 /** `IndexSet<T>` schema, identical to the ordered-set schema. */
-class IndexSetSchema<T>(inner: JsonSchema) : JsonSchema by SetSchema(inner)
+class IndexSetSchema(
+    inner: JsonSchema,
+) : JsonSchema by SetSchema(inner)
 
 /** Return the schema implementation for an [IndexMap] value. */
-fun <K, V> IndexMap<K, V>.indexMapJsonSchema(key: JsonSchema, value: JsonSchema): JsonSchema =
-    IndexMapSchema<K, V>(key, value)
+fun <K, V> IndexMap<K, V>.indexMapJsonSchema(
+    key: JsonSchema,
+    value: JsonSchema,
+): JsonSchema = IndexMapSchema(key, value)
 
 /** Return the schema implementation for an [IndexSet] value. */
-fun <T> IndexSet<T>.indexSetJsonSchema(inner: JsonSchema): JsonSchema =
-    IndexSetSchema<T>(inner)
+fun <T> IndexSet<T>.indexSetJsonSchema(inner: JsonSchema): JsonSchema = IndexSetSchema(inner)
