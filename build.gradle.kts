@@ -203,7 +203,33 @@ fun installProjectAndroidSdk(execOperations: ExecOperations) {
     println("setup-android-sdk: done; SDK at $projectAndroidSdkDir")
 }
 
-writeAndroidLocalProperties()
+val androidSdkInstallTriggerTasks =
+    setOf(
+        "build",
+        "check",
+        "test",
+        "allTests",
+        "hostTests",
+        "setupAndroidSdk",
+        "ensureAndroidSdk",
+        "codeqlCompileJvm",
+        "publishAndReleaseToMavenCentral",
+    )
+
+val shouldInstallAndroidSdkAtConfiguration =
+    gradle.startParameter.taskNames
+        .map { it.substringAfterLast(':') }
+        .any { taskName ->
+            taskName in androidSdkInstallTriggerTasks ||
+                taskName.contains("android", ignoreCase = true) ||
+                taskName.startsWith("publish", ignoreCase = true)
+        }
+
+if (shouldInstallAndroidSdkAtConfiguration) {
+    installProjectAndroidSdk(serviceOf())
+} else {
+    writeAndroidLocalProperties()
+}
 
 val ensureAndroidSdk by tasks.registering {
     group = "setup"
@@ -626,6 +652,12 @@ tasks.register("hostTests") {
         listOf("jvmTest", "macosArm64Test", "jsNodeTest", "wasmJsNodeTest", "wasmWasiNodeTest", "testAndroidHostTest")
             .mapNotNull { tasks.findByName(it) },
     )
+}
+
+tasks.register("test") {
+    group = "verification"
+    description = "Alias for hostTests."
+    dependsOn("hostTests")
 }
 
 // Skip embedSwiftExportForXcode unless Xcode env is present or task is explicitly requested.

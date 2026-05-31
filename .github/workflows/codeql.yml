@@ -33,10 +33,6 @@ name: "CodeQL Advanced"
 # though autobuild is the template default.
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   schedule:
     - cron: '44 16 * * 0'
 
