@@ -570,23 +570,45 @@ val codeqlCompileJvm =
             val fullClasspath =
                 (codeqlSourceFiles.get().resolve() + extractedJars)
                     .joinToString(File.pathSeparator) { it.absolutePath }
-            val sourceFiles =
-                sources.files.toMutableList().ifEmpty {
-                    val sentinelFile =
-                        sentinelDir
-                            .get()
-                            .asFile
-                            .resolve("io/github/kotlinmania/codeql/_CodeqlEmptySource.kt")
-                    sentinelFile.parentFile.mkdirs()
-                    sentinelFile.writeText(
-                        """
-                        package io.github.kotlinmania.codeql
+            val dummyFile =
+                sentinelDir
+                    .get()
+                    .asFile
+                    .resolve("kotlin/native/HiddenFromObjC.kt")
+            dummyFile.parentFile.mkdirs()
+            dummyFile.writeText(
+                """
+                package kotlin.native
 
-                        private object _CodeqlEmptySource
-                        """.trimIndent(),
-                    )
-                    mutableListOf(sentinelFile)
-                }
+                @Target(
+                    AnnotationTarget.CLASS,
+                    AnnotationTarget.PROPERTY,
+                    AnnotationTarget.FIELD,
+                    AnnotationTarget.CONSTRUCTOR,
+                    AnnotationTarget.FUNCTION
+                )
+                @Retention(AnnotationRetention.BINARY)
+                annotation class HiddenFromObjC
+                """.trimIndent(),
+            )
+            val sourceFiles = sources.files.toMutableList()
+            if (sourceFiles.isEmpty()) {
+                val sentinelFile =
+                    sentinelDir
+                        .get()
+                        .asFile
+                        .resolve("io/github/kotlinmania/codeql/_CodeqlEmptySource.kt")
+                sentinelFile.parentFile.mkdirs()
+                sentinelFile.writeText(
+                    """
+                    package io.github.kotlinmania.codeql
+
+                    private object _CodeqlEmptySource
+                    """.trimIndent(),
+                )
+                sourceFiles.add(sentinelFile)
+            }
+            sourceFiles.add(dummyFile)
             args = listOf(
                 "-d",
                 outDir.get().asFile.absolutePath,
@@ -600,6 +622,7 @@ val codeqlCompileJvm =
                 codeqlLanguageVersion,
                 "-api-version",
                 codeqlApiVersion,
+                "-Xallow-kotlin-package",
                 "-Xexpect-actual-classes",
             ) + commonOptIns.flatMap { listOf("-opt-in", it) } + sourceFiles.map { it.absolutePath }
         }
