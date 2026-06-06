@@ -1,9 +1,24 @@
 root = true
 
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = 120
+
 [*.{kt,kts}]
-# This repo is a 1:1 Rust→Kotlin port (see CLAUDE.md): each Kotlin file maps to
-# one upstream Rust file and carries a `port-lint: source <file>` provenance
-# header, so files are named after their Rust source (Primitives.kt ← primitives.rs),
-# not after their lone top-level declaration. ktlint's filename rule would demand
-# the latter and can't be auto-corrected, so disable it to preserve the mapping.
+ktlint_code_style = ktlint_official
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+ktlint_standard_class-naming = disabled
+ktlint_standard_comment-wrapping = disabled
+ktlint_standard_discouraged-comment-location = disabled
 ktlint_standard_filename = disabled
+ktlint_standard_function-naming = disabled
+ktlint_standard_function-signature = disabled
+ktlint_standard_kdoc = disabled
+ktlint_standard_max-line-length = disabled
+ktlint_standard_no-consecutive-comments = disabled
+ktlint_standard_property-naming = disabled

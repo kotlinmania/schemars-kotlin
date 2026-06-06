@@ -2,7 +2,6 @@
   "name": "kotlin-js-store",
   "private": true,
   "dependencies": {
-    "qs": "6.15.2",
-    "webpack": "5.106.2"
+    "webpack": "5.107.2"
   }
 }
